@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Richly Matcha | Product page design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:wght@300;400;500&family=DM+Sans:wght@400;500&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<!--
+  Product page design for AYA / ZEN / TAKUMI, drawn in the store's own look (Luxe theme).
+  ?p=aya | zen | takumi      &lang=ja  shows the Japanese version for review (the live page is English)
+  &bf=1  shows the page as it should look during Black Friday (Nov 18-30). The discount is automatic at checkout,
+         so the theme's price stays the same and a box under the price shows the Black Friday price.
+  Everything inside <main class="rm-pdp"> is the page. The top strip and header are preview-only.
+-->
+<style>
+  body{margin:0;background:#ecebe6}
+  .pv{background:#3d3e3b;color:#fff;font:400 12.5px/1.6 "Noto Sans JP",sans-serif;padding:7px 12px;text-align:center}
+  .pv a{color:#fff;margin:0 6px;white-space:nowrap}
+  .pv a.on{font-weight:500;text-decoration:none;border-bottom:1px solid #fff}
+  .bar{background:#ecebe6;color:#4b6c4f;text-align:center;font:400 12px/1.4 "Reddit Sans","Noto Sans JP",sans-serif;padding:8px 12px}
+  .head{background:#4b6c4f;height:64px;display:flex;align-items:center;justify-content:center;position:relative}
+  .head img{height:26px}
+  .head nav{position:absolute;left:24px;display:flex;gap:18px;font:400 11px/1 "DM Sans",sans-serif;letter-spacing:.06em;color:#fff;text-transform:uppercase}
+  .head .r{position:absolute;right:24px;color:#fff;font:400 13px "DM Sans",sans-serif}
+
+  .rm-pdp{
+    --bg:#ecebe6;--panel:#f4f3ef;--ink:#3d3e3b;--text:#505050;--soft:#66675f;--green:#4b6c4f;--green-d:#3d5a41;--line:#d3d1c9;--star:#1f7a63;
+    --sans:"Reddit Sans","Noto Sans JP",Arial,sans-serif;--ui:"DM Sans","Noto Sans JP",Arial,sans-serif;
+    background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased
+  }
+  .rm-pdp *{box-sizing:border-box;margin:0;padding:0}
+  .rm-pdp img{display:block;max-width:100%}
+  .rm-pdp .wrap{width:min(1180px, 100% - 48px);margin-inline:auto}
+  .rm-pdp h1,.rm-pdp h2,.rm-pdp h3{font-weight:300;color:var(--ink);letter-spacing:-.005em}
+  .rm-pdp .num{font-variant-numeric:lining-nums tabular-nums}
+  .ja .rm-pdp{line-break:strict;word-break:auto-phrase}
+
+  /* product area */
+  .pdp{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:56px;padding:28px 0 64px}
+  .gal-main{background:var(--bg);aspect-ratio:1;position:relative;overflow:hidden}
+  .gal-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  .gal-grid div{aspect-ratio:1;overflow:hidden;background:#e4e3dd}
+  .gal-grid img{width:100%;height:100%;object-fit:cover}
+  .thumbs{display:none}
+  /* PC: the photos stay in view while the right column scrolls. If the photos are taller than the screen, they stop with their bottom edge in view. */
+  .gal{--gw:calc((min(1180px, 100vw - 48px) - 56px) * 7 / 12);position:sticky;top:min(20px, calc(100vh - var(--gw) * 1.5 - 32px));align-self:start}
+  .info{align-self:start}
+  .tag{font-family:var(--ui);font-weight:500;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+  .ja .tag{letter-spacing:.06em;text-transform:none}
+  h1{font-size:28px;line-height:1.25;margin-top:6px}
+  .stars{color:var(--star);font-size:13px;letter-spacing:.06em;margin-top:6px}
+  .stars span{color:var(--soft);letter-spacing:0;font-size:12.5px;margin-left:4px}
+  .price{font-size:20px;color:var(--ink);font-weight:400;margin-top:14px}
+  .bfbox{margin-top:10px;border:1px solid var(--green);background:var(--panel);padding:10px 12px;color:var(--ink);font-size:13px;line-height:1.5}
+  .bfbox b{display:block;font-weight:500;color:var(--green);font-size:15px}
+  .bfbox small{color:var(--soft);font-size:12px}
+  .ship{font-size:13.5px;line-height:1.5;color:var(--text);margin-top:4px}
+  .ship u{color:var(--ink)}
+  .desc{margin-top:16px;font-size:15px}
+  .pay{font-size:12px;margin-top:12px;color:var(--ink)}
+  .pay b{color:#5a31f4;font-weight:600}
+  .qty-l{font-size:12px;margin-top:16px}
+  .qty{margin-top:4px;display:inline-flex;border:1px solid #9c9c96;height:38px;align-items:center}
+  .qty span{width:38px;text-align:center;color:var(--soft)}
+  .opts{margin-top:14px;border:1px solid #9c9c96;background:#f7f6f2;padding:12px 14px;font-size:13px}
+  .opts p+p{margin-top:8px}
+  .opts .r{display:inline-block;width:13px;height:13px;border:1px solid #777;border-radius:50%;margin-right:8px;vertical-align:-2px}
+  .opts .r.on{background:radial-gradient(#555 42%, transparent 48%)}
+  .opts small{float:right;color:var(--soft);font-size:12.5px}
+  .subnote{font-size:12.5px;line-height:1.5;color:var(--text);margin-top:7px}
+  .subnote u{color:var(--ink)}
+  .btn{display:block;margin-top:16px;background:var(--green);color:#fff;text-align:center;font-family:var(--ui);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;padding:15px;text-decoration:none}
+  .ja .btn{text-transform:none;letter-spacing:.04em}
+  .shopbtn{margin-top:8px;background:#5a31f4;color:#fff;text-align:center;font-weight:600;font-size:14px;padding:12px}
+  .why{margin-top:18px;display:flex;gap:14px;align-items:center;background:var(--panel);padding:12px 14px 12px 12px}
+  .why img{flex:none;width:84px;height:84px;object-fit:cover;object-position:62% 30%}
+  .why p{font-size:13.5px;line-height:1.5;color:var(--text)}
+  .why b{display:block;font-weight:400;color:var(--ink);font-size:14.5px;margin-bottom:2px}
+  .why a{color:var(--ink);white-space:nowrap}
+  .quote{margin-top:18px;font-size:14px;line-height:1.55;color:var(--ink)}
+  .quote i{display:block;font-style:normal;color:var(--star);font-size:12px;letter-spacing:.06em;margin-bottom:3px}
+  .quote span{display:block;font-size:12.5px;color:var(--soft);margin-top:4px}
+  .quote a{color:var(--ink)}
+  .stk{display:none}
+  .icons{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;padding:16px 4px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .icons div{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:var(--ink)}
+  .icons svg{flex:none;width:20px;height:20px;stroke:var(--green);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+  .ups{margin-top:22px}
+  .ups h3{font-size:16px;font-weight:400}
+  .ups-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  .ups-grid div{background:var(--panel);padding:10px}
+  .ups-grid img{width:100%;aspect-ratio:1;object-fit:cover}
+  .ups-grid p{font-size:12.5px;margin-top:8px;color:var(--ink);line-height:1.4;min-height:2.8em}
+  .ups-grid em{display:block;font-style:normal;color:var(--text);margin-top:2px}
+  .ups-grid .add{margin-top:8px;border:1px solid var(--ink);text-align:center;font-family:var(--ui);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:7px}
+  .ups-note{font-size:12.5px;color:var(--text);margin-top:8px}
+  .acc{margin-top:22px;border-top:1px solid var(--line)}
+  .acc details{border-bottom:1px solid var(--line)}
+  .acc summary{list-style:none;cursor:pointer;padding:14px 2px;display:flex;justify-content:space-between;font-size:15px;color:var(--ink);font-weight:400}
+  .acc summary::-webkit-details-marker{display:none}
+  .acc summary::after{content:"+";color:var(--green);font-family:var(--ui)}
+  .acc details[open] summary::after{content:"–"}
+  .acc .body{padding:0 2px 16px;font-size:14px}
+  .acc ol{list-style:none;counter-reset:s}
+  .acc ol li{counter-increment:s;position:relative;padding-left:32px;margin-top:10px}
+  .acc ol li:first-child{margin-top:0}
+  .acc ol li::before{content:counter(s);position:absolute;left:0;top:1px;width:21px;height:21px;border-radius:50%;background:var(--green);color:#fff;font:500 11px/21px var(--ui);text-align:center}
+  .acc .ch p+p{margin-top:8px}
+  .acc .ch b{font-weight:400;color:var(--ink)}
+  .acc .ch .me{background:#e6e4dc;margin:0 -8px;padding:6px 8px}
+  .acc .body p+p{margin-top:8px}
+
+  /* founder */
+  .founder{background:var(--panel)}
+  .founder .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center;padding:0}
+  .founder img{width:100%;aspect-ratio:3/2;object-fit:cover;object-position:50% 35%}
+  .founder .tx{padding:40px 40px 40px 0}
+  .founder .eb{font-family:var(--ui);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+  .ja .founder .eb{letter-spacing:.06em}
+  .founder h2{font-size:28px;line-height:1.25;margin:10px 0 14px}
+  .founder a{display:inline-block;margin-top:16px;font-family:var(--ui);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px;text-decoration:none}
+
+  /* reviews */
+  .revs{padding:64px 0}
+  .revs h2{font-size:26px}
+  .revs .sum{margin-top:6px;color:var(--star)}
+  .revs .sum b{color:var(--ink);font-weight:400;font-size:20px;margin-right:6px}
+  .rv{border-top:1px solid var(--line);padding:20px 0;max-width:760px}
+  .rv:first-of-type{margin-top:20px}
+  .rv .st{color:var(--star);font-size:14px;letter-spacing:.06em}
+  .rv .who{font-weight:400;color:var(--ink);margin-top:4px}
+  .rv .who small{color:var(--soft);font-weight:300;margin-left:8px}
+  .rv h4{font-weight:400;font-size:16px;color:var(--ink);margin-top:8px}
+  .rv p{margin-top:6px;font-size:14.5px}
+
+  /* three matchas */
+  .three{padding:0 0 72px}
+  .three h2{font-size:24px;text-align:center;margin-bottom:24px}
+  .three-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;max-width:900px;margin:0 auto;text-align:center}
+  .three-grid a{text-decoration:none;color:inherit;padding:18px 10px;border:1px solid transparent}
+  .three-grid a.cur{border-color:var(--line);background:var(--panel)}
+  .three-grid img{height:210px;width:auto;margin:-18px auto -14px}
+  .three-grid h3{font-size:18px;font-weight:400;margin-top:10px}
+  .three-grid p{font-size:13px;color:var(--soft)}
+
+  @media (max-width:900px){
+    .pdp{grid-template-columns:1fr;gap:0;padding-top:0}
+    .gal-main{aspect-ratio:5/4}
+    .gal-grid{display:none}
+    .thumbs{display:flex;gap:6px;justify-content:center;padding:8px 0 16px}
+    .thumbs i{width:44px;height:44px;border:1px solid var(--line);background:#e4e3dd center/cover no-repeat}
+    .thumbs i.on{border-color:var(--ink);background-size:contain}
+    .gal{position:static}
+    h1{font-size:23px}
+    .founder .wrap{grid-template-columns:1fr;gap:0}
+    .founder .tx{padding:24px 24px 30px}
+    .founder h2{font-size:24px}
+    .revs{padding:44px 0}
+    .three-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+    .three-grid img{height:132px;margin:-12px auto -10px}
+    .three-grid h3{font-size:15px}
+    .head nav{display:none}
+    .rm-pdp{padding-bottom:66px}
+    .stk{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:5;align-items:center;gap:12px;background:var(--panel);border-top:1px solid var(--line);padding:10px 16px;transform:translateY(100%);transition:transform .2s}
+    .stk.on{transform:none}
+    .stk p{flex:1;font-size:13px;line-height:1.3;color:var(--ink);font-weight:400}
+    .stk p small{display:block;font-weight:300;color:var(--soft);font-size:12px}
+    .stk a{flex:none;background:var(--green);color:#fff;font-family:var(--ui);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:13px 18px;text-decoration:none}
+    .ja .stk a{text-transform:none;letter-spacing:.04em}
+  }
+  @media (max-width:420px){
+    .rm-pdp .wrap{width:calc(100% - 32px)}
+    .founder .wrap{width:100%}
+    .icons{grid-template-columns:1fr 1fr;gap:10px 10px}
+  }
+</style>
+</head>
+<body>
+<p class="pv" id="pv"></p>
+<p class="bar" id="bar"></p>
+<div class="head"><nav id="nav"></nav><img src="img/logo.png" alt="Richly Matcha"><span class="r" id="bag"></span></div>
+
+<main class="rm-pdp">
+  <div class="wrap pdp">
+    <div class="gal">
+      <div class="gal-main"><img id="g0" alt=""></div>
+      <div class="thumbs" id="thumbs"></div>
+      <div class="gal-grid"><div><img id="g1" alt=""></div><div><img id="g2" alt=""></div></div>
+    </div>
+    <div class="info">
+      <p class="tag" id="tag"></p>
+      <h1 id="title"></h1>
+      <p class="stars" id="stars"></p>
+      <p class="price num" id="price"></p>
+      <div class="bfbox" id="bfbox" hidden></div>
+      <p class="ship" id="ship"></p>
+      <p class="desc" id="desc"></p>
+      <p class="pay" id="pay"></p>
+      <p class="qty-l" id="qtyl"></p>
+      <div class="qty"><span>−</span><span>1</span><span>+</span></div>
+      <div class="opts" id="opts"></div>
+      <p class="subnote" id="subnote"></p>
+      <a class="btn" href="#" id="add"></a>
+      <div class="shopbtn" id="shopbtn"></div>
+      <!-- the reason to choose this matcha, in two lines: Text block or Custom Liquid under the buy buttons -->
+      <div class="why"><img src="img/eri-master-leaves.jpg" alt=""><p id="why"></p></div>
+      <p class="quote" id="quote"></p>
+      <div class="icons" id="icons"></div>
+      <div class="ups" id="ups"></div>
+      <div class="acc" id="acc"></div>
+    </div>
+  </div>
+
+  <section class="founder" id="story">
+    <div class="wrap">
+      <img src="img/eri-master-leaves.jpg" alt="">
+      <div class="tx">
+        <p class="eb" id="feb"></p>
+        <h2 id="fh"></h2>
+        <p id="fp"></p>
+        <a href="https://richlymatcha.com/pages/our-story" id="fa"></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap revs" id="revs"></section>
+
+  <section class="wrap three">
+    <h2 id="threeh"></h2>
+    <div class="three-grid" id="three"></div>
+  </section>
+
+  <!-- mobile only: stays at the bottom once the Add to bag button scrolls out of view (Luxe: sticky buy buttons) -->
+  <div class="stk" id="stk"></div>
+</main>
+
+<script>
+const q = new URLSearchParams(location.search);
+const P = (q.get('p') || 'aya').toLowerCase();
+const JA = q.get('lang') === 'ja';
+if (JA) { document.documentElement.lang = 'ja'; document.body.classList.add('ja'); }
+const BF = q.get('bf') === '1';
+const L = (en, ja) => JA ? ja : en;
+const U = (p, ja, bf) => '?p=' + p + (ja ? '&lang=ja' : '') + (bf ? '&bf=1' : '');
+
+const ICON = {
+  truck:'<svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg>',
+  box:'<svg viewBox="0 0 24 24"><path d="M4 9h16v11H4zM12 9v11M4 9l2-4h12l2 4"/></svg>',
+  leaf:'<svg viewBox="0 0 24 24"><path d="M12 21c0-7 0-11 7-16-1 8-3 12-7 16zM12 21c0-5-2-8-7-10 1 5 3 8 7 10z"/></svg>',
+  cup:'<svg viewBox="0 0 24 24"><path d="M5 9h12v6a5 5 0 01-5 5h-2a5 5 0 01-5-5zM17 11h2a2 2 0 010 4h-2"/></svg>',
+  seed:'<svg viewBox="0 0 24 24"><path d="M12 3c4 4 5 9 0 18-5-9-4-14 0-18zM12 8v9"/></svg>'
+};
+
+const latteSteps = [
+  L('<b>Add matcha and hot water.</b> 2 teaspoons (about 4g) of matcha and about 1.5 oz (40 ml) of water, around 158°F (70°C).','<b>抹茶とお湯を入れる。</b>抹茶小さじ2（約4g）と、70℃くらいのお湯を40ml。'),
+  L('<b>Whisk.</b> Briskly, in an “M” motion, until smooth and foamy.','<b>点てる。</b>「M」の字を描くように素早く、なめらかに泡立つまで。'),
+  L('<b>Pour over milk.</b> 7–8 oz (200–240 ml), with ice if you like. Oat milk is our favorite.','<b>牛乳に注ぐ。</b>200〜240ml。お好みで氷を。おすすめはオーツミルク。')
+];
+const whiskSteps = [
+  L('<b>Sift the matcha.</b> 1 teaspoon (about 2g) into a bowl.','<b>抹茶をふるう。</b>小さじ1（約2g）を茶碗に。'),
+  L('<b>Add hot water.</b> About 2 oz (60–70 ml), around 158–167°F (70–75°C).','<b>お湯を注ぐ。</b>70〜75℃くらいのお湯を60〜70ml。'),
+  L('<b>Whisk and drink.</b> Briskly, in an “M” motion, until a fine foam forms. Drink it right away.','<b>点てて、すぐに。</b>「M」の字を描くように素早く、きめ細かい泡が立つまで。')
+];
+
+const D = {
+  aya: {
+    name:'AYA', title:'AYA Ceremonial Grade Uji Matcha 30g', price:'39.00', sub:'35.10', bfp:'23.40', rc:3,
+    pay:L('Zero interest · 2 payments of $19.50 with <b>shop</b>','金利なし・<b>shop</b>で$19.50の2回払い'),
+    shipL:L('$5 flat-rate U.S. shipping. <u>Free on orders over $75</u>: two tins, or a tin and a whisk.','米国内の送料は一律$5。<u>$75以上のご注文で無料</u>（2缶、または1缶と茶筅）。'),
+    quote:[L('“I usually make it as a latte, and there’s no bitterness at all.”','「いつもラテにしていますが、苦みはまったくありません。」'),'Elizabeth'],
+    imgs:['p-aya.png','latte-pour.jpg','aya-powder.jpg'],
+    tag:L('Our most approachable matcha','いちばん飲みやすい抹茶'),
+    desc:L('Start here if you’re new to real matcha. AYA is smooth and gentle, with balanced umami and just a hint of bitterness. Drink it straight or as a latte. The matcha comes through either way.',
+           '本格的な抹茶が初めてなら、ここから。AYAはなめらかでやさしい味わいで、うまみのバランスがよく、苦みはほんのわずか。そのままでも、ラテにしても、抹茶の味がしっかり残ります。'),
+    icons:[['truck',L('Ships from Los Angeles in 1–2 business days','ロサンゼルスから1〜2営業日で発送')],['box',L('Free U.S. shipping over $75','$75以上で米国内送料無料')],['leaf',L('First harvest from Uji, Kyoto','京都・宇治の一番茶')],['cup',L('About 7 lattes, or 15 cups straight, per tin','1缶でラテ約7杯、そのまま飲むなら約15杯')]],
+    upsH:L('New to matcha? Add a whisk.','初めてなら、茶筅もいっしょに。'),
+    ups:[['whisk-resin.jpg','Ivory Resin Matcha Whisk','38.00'],['whisk-bamboo.jpg','White Bamboo Matcha Whisk','76.00']],
+    upsN:L('Add either whisk and your order ships free.','どちらの茶筅を足しても、送料無料になります。'),
+    howH:L('How to make a matcha latte','抹茶ラテの作り方'), how:latteSteps,
+    taste:L('Smooth and approachable with balanced umami, gentle bitterness, and a clean, refreshing character.','なめらかで親しみやすく、うまみのバランスがよく、苦みはやさしく、すっきりとした後味。'),
+    origin:L('Uji, Kyoto · Okumidori Cultivar · First Harvest · Sheared · Direct-Cover Shade-Grown · Stone-Milled','京都・宇治／品種：おくみどり／一番茶／機械摘み／直がけ（覆い下栽培）／石臼挽き'),
+    revs:[
+      ['Elizabeth','09/17/2026','',L('Really fresh and smooth with a clean finish. I usually make it as a latte, and there’s no bitterness at all. The matcha flavor still comes through beautifully even with milk. It’s perfect for everyday matcha.','とても新鮮でなめらか、後味がすっきりしています。いつもラテにしていますが、苦みはまったくありません。牛乳と合わせても抹茶の味がきれいに出ます。毎日の抹茶にぴったりです。')],
+      ['Edward','07/22/2026',L('Great taste','すばらしい味'),L('This was my first time trying Aya Matcha, and I was genuinely impressed by how fragrant it is. The moment I opened the tin, a soft, rich aroma filled the air, and the color was a beautiful vivid green that was a joy just to look at.','AYAを飲むのは初めてでしたが、香りの良さに本当に感動しました。缶を開けた瞬間、やわらかく豊かな香りが広がり、色は見ているだけでうれしくなる、きれいな鮮やかな緑でした。')],
+      ['Anonymous','07/11/2026',L('Amazingly Tasty!','驚くほどおいしい！'),L('This was my first time trying authentic Japanese matcha, and I was honestly surprised by how smooth and easy it was to drink. It has a natural sweetness and a mellow flavor that I look forward to every morning.','本格的な日本の抹茶は初めてでしたが、なめらかで飲みやすく、正直驚きました。自然な甘みとまろやかな味わいで、毎朝の楽しみです。')]
+    ]
+  },
+  zen: {
+    name:'ZEN', title:'ZEN Ceremonial Grade Uji Matcha 30g', price:'66.00', sub:'59.40', bfp:'39.60', rc:3,
+    pay:L('Zero interest · 4 payments, or from $11.49/mo with <b>shop</b>','金利なし・4回払い、または月$11.49から（<b>shop</b>）'),
+    shipL:L('$5 flat-rate U.S. shipping. <u>Free on orders over $75.</u>','米国内の送料は一律$5。<u>$75以上のご注文で無料</u>。'),
+    quote:[L('“I’ve tried many different ‘Ceremonial Grade’ matchas, but this one is in a completely different league.”','「『セレモニアルグレード』の抹茶をいろいろ試してきましたが、これはまったく別格です。」'),'Alex'],
+    imgs:['p-zen.png','whisked.jpg','zen-powder.jpg'],
+    tag:L('Our pick for drinking straight','ストレートで飲むなら'),
+    desc:L('For when you want to taste the matcha itself. ZEN is hand-picked and shade-grown under a raised canopy, which gives it rich umami, a full body, and very little bitterness. Whisk it with hot water and drink it straight.',
+           '抹茶そのものの味を楽しみたいときに。ZENは手摘みで、高く張った覆いの下で育てています。そのため、うまみが濃く、コクがあり、苦みはほとんどありません。お湯で点てて、そのまま飲んでください。'),
+    icons:[['truck',L('Ships from Los Angeles in 1–2 business days','ロサンゼルスから1〜2営業日で発送')],['box',L('Free U.S. shipping over $75','$75以上で米国内送料無料')],['leaf',L('Hand-picked first harvest from Uji, Kyoto','京都・宇治の一番茶、手摘み')],['cup',L('About 15 cups per tin','1缶で約15杯分')]],
+    upsH:L('Make it the traditional way.','昔ながらの道具で点てる。'),
+    ups:[['whisk-bamboo.jpg','White Bamboo Matcha Whisk','76.00'],['chawan.jpg','Katakuchi Chawan','118.00']],
+    upsN:L('Add either one and your order ships free.','どちらを足しても、送料無料になります。'),
+    howH:L('How to whisk matcha','抹茶の点て方'), how:whiskSteps,
+    taste:L('Umami-forward with minimal bitterness and a smooth, slightly fuller body. Refined and beautifully balanced.','うまみが前に出て、苦みは少なく、なめらかでやや厚みのある口当たり。上品でバランスのよい味わい。'),
+    origin:L('Uji, Kyoto · Samidori Cultivar · First Harvest · Hand-Picked · Shade-Grown (Tana) · Stone-Milled','京都・宇治／品種：さみどり／一番茶／手摘み／棚がけ（覆い下栽培）／石臼挽き'),
+    revs:[
+      ['Elizabeth','09/17/2026','',L('This one feels really well balanced. It has a rich umami flavor but is still very smooth and slightly sweet. I’ve tried quite a few matcha brands, and ZEN is easily one of my favorites.','とてもバランスがいい抹茶です。うまみが濃いのに、なめらかでほんのり甘い。いろいろなブランドを試してきましたが、ZENは間違いなくお気に入りのひとつです。')],
+      ['Alex','07/11/2026',L('Matcha with Deep Umami and Natural Sweetness','深いうまみと自然な甘みの抹茶'),L('I loved AYA, but ZEN takes it to another level. The moment it touches your tongue, you notice the deep umami and natural sweetness. It’s incredibly smooth, with no bitterness or harsh aftertaste.','AYAも大好きですが、ZENはさらに上でした。口に含んだ瞬間に、深いうまみと自然な甘みが分かります。驚くほどなめらかで、苦みや嫌な後味がありません。')]
+    ]
+  },
+  takumi: {
+    name:'TAKUMI', title:'TAKUMI Ceremonial Grade Uji Matcha 30g', price:'88.00', sub:'79.20', bfp:'52.80', rc:2,
+    pay:L('Zero interest · 4 payments with <b>shop</b>','金利なし・4回払い（<b>shop</b>）'),
+    shipL:L('This tin <u>ships free</u> in the U.S.','この1缶で<u>米国内送料無料</u>です。'),
+    quote:[L('“It’s absolutely worth every penny.”','「値段の価値は十分にあります。」'),'Alex'],
+    imgs:['p-takumi.png','whisked.jpg','takumi-powder.jpg'],
+    tag:L('Our richest matcha','いちばん濃い抹茶'),
+    desc:L('For slow, special moments. TAKUMI is made entirely from Gokō, a cultivar prized for its deep umami. Hand-picked and shade-grown under a raised canopy, it has a smooth, rounded texture and a finish that lingers.',
+           'ゆっくり味わいたい、特別なひとときに。TAKUMIは、うまみの深さで知られる品種「ごこう」だけでつくっています。手摘みで、高く張った覆いの下で育て、まろやかな口当たりと、長く残る余韻があります。'),
+    icons:[['truck',L('Ships from Los Angeles in 1–2 business days','ロサンゼルスから1〜2営業日で発送')],['box',L('Ships free','送料無料')],['leaf',L('Hand-picked first harvest from Uji, Kyoto','京都・宇治の一番茶、手摘み')],['seed',L('100% Gokō cultivar','品種「ごこう」100%')]],
+    upsH:L('Make it the traditional way.','昔ながらの道具で点てる。'),
+    ups:[['whisk-black.jpg','Black Bamboo Matcha Whisk','89.00'],['chawan.jpg','Katakuchi Chawan','118.00']],
+    upsN:'',
+    howH:L('How to whisk matcha','抹茶の点て方'), how:whiskSteps,
+    taste:L('Deep, abundant umami with an exceptionally smooth, rounded texture and an elegant, lingering finish.','深く豊かなうまみ、際立ってなめらかでまろやかな口当たり、上品に長く残る余韻。'),
+    origin:L('Uji, Kyoto · Gokō Cultivar · First Harvest · Hand-Picked · Shade-Grown (Tana) · Stone-Milled','京都・宇治／品種：ごこう／一番茶／手摘み／棚がけ（覆い下栽培）／石臼挽き'),
+    revs:[
+      ['Elizabeth','09/17/2026','',L('You can really taste the difference with this matcha. It’s incredibly smooth, deep, and has almost no bitterness. I prefer drinking this one with just water because the flavor is so delicate and complex.','違いがはっきり分かる抹茶です。驚くほどなめらかで深く、苦みはほとんどありません。味が繊細で奥深いので、これはお湯だけで飲むのが好きです。')],
+      ['Alex','07/11/2026',L('The Best Matcha Ever!','今までで最高の抹茶！'),L('This is the best matcha I’ve ever had. It’s rich and full-bodied without being bitter, and the balance of umami and natural sweetness is outstanding. It’s absolutely worth every penny.','今まで飲んだ中で最高の抹茶です。濃くてコクがあるのに苦くなく、うまみと自然な甘みのバランスが見事。値段の価値は十分にあります。')]
+    ]
+  }
+};
+const d = D[P] || D.aya;
+const $ = id => document.getElementById(id);
+
+// preview strip
+$('pv').innerHTML = L('Design preview','デザインの確認用') + ' ｜ ' +
+  ['aya','zen','takumi'].map(k => `<a class="${k===P?'on':''}" href="${U(k,JA,BF)}">${D[k].name}</a>`).join('') +
+  ` ｜ <a class="${JA?'':'on'}" href="${U(P,false,BF)}">English</a><a class="${JA?'on':''}" href="${U(P,true,BF)}">日本語</a>` +
+  ` ｜ <a class="${BF?'':'on'}" href="${U(P,JA,false)}">${L('Regular','通常')}</a><a class="${BF?'on':''}" href="${U(P,JA,true)}">${L('Black Friday','BF期間')}</a>`;
+// Black Friday: the bar at the top is one theme setting and shows on every page, including the collection page the price ad lands on.
+$('bar').textContent = BF ? L('Black Friday: 40% off AYA, ZEN & TAKUMI tins, Nov 18–30. Discount applied at checkout.','ブラックフライデー：AYA・ZEN・TAKUMIの缶が40% OFF（11/18〜11/30）。チェックアウトで割引されます。')
+                          : L('FREE shipping for US orders over $75','$75以上のご注文で米国内送料無料');
+$('nav').innerHTML = L('<span>Shop all</span><span>Subscription</span><span>Our story</span><span>Matcha guide</span>','<span>商品一覧</span><span>定期便</span><span>ストーリー</span><span>抹茶ガイド</span>');
+$('bag').textContent = L('Bag 0','カート 0');
+
+// gallery
+$('g0').src = 'img/' + d.imgs[0]; $('g1').src = 'img/' + d.imgs[1]; $('g2').src = 'img/' + d.imgs[2];
+$('thumbs').innerHTML = d.imgs.map((f,i) => `<i class="${i?'':'on'}" style="background-image:url(img/${f})"></i>`).join('');
+
+// info
+$('tag').textContent = d.tag;
+$('title').textContent = d.title;
+$('stars').innerHTML = `★★★★★<span>${d.rc} ${L('reviews','件のレビュー')}</span>`;
+$('price').textContent = '$' + d.price;
+if (BF) { $('bfbox').hidden = false;
+  $('bfbox').innerHTML = L(`<b>Black Friday: 40% off. ${d.name} is $${d.bfp}.</b><small>Applied automatically at checkout · Nov 18–30</small>`,
+                           `<b>ブラックフライデー 40% OFF。${d.name}は$${d.bfp}。</b><small>チェックアウトで自動的に割引されます・11/18〜11/30</small>`); }
+// During Black Friday the free-shipping line is the general one: the $75 line is checked after the discount.
+$('ship').innerHTML = BF ? L('$5 flat-rate U.S. shipping. <u>Free on orders over $75.</u>','米国内の送料は一律$5。<u>$75以上のご注文で無料</u>。') : d.shipL;
+$('desc').textContent = d.desc;
+$('pay').innerHTML = d.pay;   // drawn by Shopify automatically; the wording changes with the price
+$('qtyl').textContent = L('Quantity','数量');
+$('opts').innerHTML = `<p><span class="r on"></span>${L('One-time purchase','1回だけ購入')}<small class="num">$${d.price}</small></p><p><span class="r"></span>${L('Deliver every month, 10% off','毎月お届け・10% OFF')}<small class="num">$${d.sub}</small></p>`;
+$('subnote').innerHTML = L('Free shipping on every delivery. Skip or cancel anytime. <u>View subscription policy</u>','毎回送料無料。スキップも解約もいつでもできます。<u>定期便の規約を見る</u>');
+$('add').textContent = L('Add to bag','カートに入れる');
+$('shopbtn').innerHTML = L('Buy with shop','shopで購入');
+$('why').innerHTML = L('<b>Chosen in Uji by Eri, our founder.</b>She worked two first harvests alongside a fifth-generation tea master and chose just three matchas to bring to the U.S. <a href="#story">Her story</a>',
+                       '<b>創業者のEriが、宇治で選んだ抹茶。</b>5代目の茶師と2年続けて一番茶を摘み、アメリカに届ける抹茶を3種類だけ選びました。<a href="#story">ストーリーを読む</a>');
+$('quote').innerHTML = `<i>★★★★★</i>${d.quote[0]}<span>— ${d.quote[1]}${L('','さん')} · <a href="#revs">${L('Read ' + (d.rc === 2 ? 'both' : 'all ' + d.rc) + ' reviews','レビュー' + d.rc + '件を読む')}</a></span>`;
+const icons = d.icons.map(([k,t]) => (BF && k === 'box') ? [k, L('Free U.S. shipping over $75','$75以上で米国内送料無料')] : [k,t]);
+$('icons').innerHTML = icons.map(([k,t]) => `<div>${ICON[k]}<span>${t}</span></div>`).join('');
+// Black Friday: AYA ($23.40) + resin whisk no longer reaches $75, so the note is not shown.
+if (BF && P === 'aya') d.upsN = '';
+$('ups').innerHTML = `<h3>${d.upsH}</h3><div class="ups-grid">` + d.ups.map(([f,n,pr]) => `<div><img src="img/${f}" alt=""><p>${n}<em class="num">$${pr}</em></p><div class="add">${L('Add','追加')}</div></div>`).join('') + '</div>' + (d.upsN ? `<p class="ups-note">${d.upsN}</p>` : '');
+const chooser = ['aya','zen','takumi'].map(k => {
+  const t = {aya:L('<b>AYA</b> — Smooth and approachable. A great first matcha, straight or in a latte.','<b>AYA</b>：なめらかで飲みやすい。最初の一缶に。そのままでもラテでも。'),
+             zen:L('<b>ZEN</b> — Umami-forward with a fuller body. Our pick for drinking straight.','<b>ZEN</b>：うまみが濃く、コクがある。ストレートで飲むならこれ。'),
+             takumi:L('<b>TAKUMI</b> — Deep umami and a rounded, lingering finish. For slow, special moments.','<b>TAKUMI</b>：深いうまみと、まろやかに長く残る余韻。ゆっくり味わいたいときに。')}[k];
+  return `<p class="${k===P?'me':''}">${t}</p>`; }).join('');
+$('acc').innerHTML =
+  `<details open><summary>${d.howH}</summary><div class="body"><ol>${d.how.map(s=>`<li>${s}</li>`).join('')}</ol></div></details>` +
+  `<details><summary>${L('AYA, ZEN or TAKUMI?','AYA・ZEN・TAKUMIの選び方')}</summary><div class="body ch">${chooser}</div></details>` +
+  `<details><summary>${L('Taste & origin','味と産地')}</summary><div class="body"><p>${d.taste}</p><p>${d.origin}</p><p>${L('Net Wt. 1.06 oz (30g) · Made in Japan','内容量 30g・日本製')}</p></div></details>` +
+  `<details><summary>${L('Shipping & returns','配送と返品')}</summary><div class="body"><p>${L('U.S. shipping is a flat $5. Orders over $75 and all subscription orders ship free. We ship from Los Angeles within 1–2 business days, and orders usually arrive in 2–5 business days.','米国内の送料は一律$5。$75以上のご注文と定期便は送料無料です。ロサンゼルスから1〜2営業日で発送し、通常2〜5営業日でお届けします。')}</p><p>${L('Returns or exchanges are accepted if you received an item different from what you ordered, or if your item arrived damaged or defective. Please contact us within 7 days of receiving your package.','ご注文と違う商品が届いた場合、破損・不良があった場合は、返品・交換を承ります。お受け取りから7日以内にご連絡ください。')}</p></div></details>`;
+
+// founder
+$('feb').textContent = L('Our story','私たちのストーリー');
+$('fh').textContent = L('Chosen by Eri, our founder','創業者Eriが選んだ抹茶');
+$('fp').textContent = L(`“I grew up drinking matcha in Japan and couldn’t find that taste in the U.S. So I went to Uji, met a fifth-generation tea master, and joined his team for the first harvest two years in a row. Out of everything I tasted there, I chose only three. ${d.name} is one of them.”`,
+                        `「日本で抹茶を飲んで育ちましたが、アメリカではその味に出会えませんでした。そこで宇治へ行き、5代目の茶師と出会い、2年続けて一緒に一番茶を摘みました。そこで飲み比べたなかから選んだのは、3種類だけ。${d.name}はそのひとつです。」`);
+$('fa').textContent = L('Read our story','ストーリーを読む');
+
+// reviews
+$('revs').innerHTML = `<h2>${L('Customer Reviews','お客様の声')}</h2><p class="sum"><b class="num">5.0</b>★★★★★ <span style="color:var(--soft)">${d.rc} ${L('reviews','件')}</span></p>` +
+  d.revs.map(([n,dt,t,b]) => `<div class="rv"><p class="st">★★★★★</p><p class="who">${n==='Anonymous'?L('Anonymous','匿名'):n}<small>${dt}</small></p>${t?`<h4>${t}</h4>`:''}<p>${b}</p></div>`).join('');
+
+// three matchas
+$('threeh').textContent = L('Our three Uji matchas','3種類の宇治抹茶');
+$('three').innerHTML = [['aya','p-aya.png','$39',L('Smooth & approachable','なめらかで飲みやすい')],['zen','p-zen.png','$66',L('Rich, for drinking straight','濃く、ストレート向き')],['takumi','p-takumi.png','$88',L('Our richest','いちばん濃い')]]
+  .map(([k,img,pr,t]) => `<a class="${k===P?'cur':''}" href="${U(k,JA,BF)}"><img src="img/${img}" alt=""><h3>${D[k].name} <span class="num" style="font-weight:300">${pr}</span></h3><p>${t}</p></a>`).join('');
+$('stk').innerHTML = `<p>${d.name}<small class="num">${BF ? L(`$${d.bfp} · Black Friday price`,`ブラックフライデー価格 $${d.bfp}`) : '$' + d.price}</small></p><a href="#">${L('Add to bag','カートに入れる')}</a>`;
+const stk = () => $('stk').classList.toggle('on', $('add').getBoundingClientRect().bottom < 0);
+addEventListener('scroll', stk, {passive:true});
+if (q.get('y')) addEventListener('load', () => { scrollTo(0, +q.get('y')); stk(); });   // preview only
+document.title = 'Richly Matcha | ' + d.name + (JA ? '（日本語・確認用）' : '');
+</script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Richly Matcha 入口ページ（確認用の日本語版）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reddit+Sans:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Preview only: stands in for the theme's own announcement bar and header ---------- */
+  body{margin:0;background:#ecebe6}
+  .ja-note{background:#3d3e3b;color:#fff;text-align:center;font:400 13px/1.6 "Noto Sans JP",sans-serif;padding:8px 12px}
+  .ja-note a{color:#fff}
+  .rm-lp{line-break:strict;word-break:auto-phrase}
+  .rm-lp h1,.rm-lp h2,.rm-lp h3{letter-spacing:0}
+  .rm-lp .eyebrow{letter-spacing:.08em}
+  .rm-lp .btn,.rm-lp .rm-pill,.rm-lp .eyebrow,.rm-lp .rm-card-label,.rm-lp .rm-chip b{text-transform:none}
+  .preview-bar{background:#ecebe6;color:#4b6c4f;text-align:center;font:400 12px/1 "Reddit Sans",sans-serif;padding:9px 12px}
+  .preview-head{background:#4b6c4f;display:flex;align-items:center;justify-content:center;height:64px}
+  .preview-head img{height:26px;width:auto}
+
+  /* ---------- Page content: everything below is scoped to .rm-lp so it can be pasted into one section ---------- */
+  .rm-lp{
+    --bg:#ecebe6; --panel:#f6f5f1; --ink:#3d3e3b; --text:#505050; --soft:#77786f;
+    --green:#4b6c4f; --green-d:#3d5a41; --line:#d5d3ca;
+    --sans:"Reddit Sans","Noto Sans JP","Helvetica Neue",Arial,sans-serif; --ui:"DM Sans","Noto Sans JP","Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:clip
+  }
+  .rm-lp *{box-sizing:border-box;margin:0;padding:0}
+  .rm-lp img{display:block;max-width:100%}
+  .rm-lp a{color:inherit}
+  .rm-lp .wrap{width:min(1120px, 100% - 40px);margin-inline:auto}
+  .rm-lp h1,.rm-lp h2,.rm-lp h3{font-family:var(--sans);font-weight:300;color:var(--ink);letter-spacing:-.01em;text-wrap:balance}
+  .rm-lp p{text-wrap:pretty}
+  .rm-lp .eyebrow{font-family:var(--ui);font-weight:400;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+  .rm-lp .num{font-variant-numeric:lining-nums tabular-nums}
+  .rm-lp .btn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;font-family:var(--ui);font-weight:500;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:17px 34px;transition:background .2s}
+  .rm-lp .btn:hover{background:var(--green-d)}
+  .rm-lp .btn-line{background:transparent;color:var(--ink);border:1px solid var(--ink);padding:13px 22px}
+  .rm-lp .btn-line:hover{background:var(--ink);color:#fff}
+  .rm-lp .link{font-family:var(--ui);font-size:13px;letter-spacing:.04em;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px}
+  .rm-lp .br-sp{display:none}
+  @media (max-width:768px){.rm-lp .br-pc{display:none}.rm-lp .br-sp{display:inline}}
+
+  /* 1 Hero */
+  .rm-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:min(700px, 88vh)}
+  .rm-hero-copy{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:72px 56px 72px max(20px, calc((100vw - 1120px)/2))}
+  .rm-hero .eyebrow{margin-bottom:22px}
+  .rm-hero h1{font-size:clamp(34px, 3.5vw, 50px);line-height:1.14;margin-bottom:22px}
+  .rm-hero h1 span{display:block;color:var(--green)}
+  .rm-hero-lead{font-size:17px;max-width:29em;margin-bottom:30px}
+  .rm-hero-note{margin-top:18px;font-size:13px;color:var(--soft)}
+  .rm-hero-photo{position:relative;min-height:420px}
+  .rm-hero-photo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 38%}
+  /* the product is in the first view: a small card that links to the starters */
+  .rm-chip{position:absolute;left:28px;bottom:28px;display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:center;background:var(--panel);padding:12px 20px 12px 12px;text-decoration:none;box-shadow:0 14px 34px -18px rgba(30,40,32,.55)}
+  .rm-chip img{width:76px;height:76px;object-fit:contain}
+  .rm-chip b{display:block;font-family:var(--ui);font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:3px}
+  .rm-chip span{display:block;font-size:15px;line-height:1.35;color:var(--ink)}
+  .rm-chip i{font-style:normal;font-weight:400}
+
+  /* 2 Problem */
+  .rm-problem{padding:104px 0 56px;text-align:center}
+  .rm-problem h2{max-width:20em;margin:0 auto 18px;font-size:clamp(26px, 2.8vw, 38px);line-height:1.25}
+  .rm-problem p{font-size:clamp(19px, 1.7vw, 22px);color:var(--green);font-weight:400}
+
+  /* 3 Why */
+  .rm-why{padding:40px 0 96px}
+  .rm-why-head{max-width:760px;margin:0 auto 40px;text-align:center}
+  .rm-why-head .eyebrow{margin-bottom:14px}
+  .rm-why h2{font-size:clamp(26px, 2.8vw, 38px);line-height:1.25}
+  .rm-why-photo{position:relative;aspect-ratio:16/6.5;overflow:hidden}
+  .rm-why-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 38%}
+  .rm-why-photo figcaption{position:absolute;left:0;right:0;bottom:0;padding:44px 22px 14px;font-size:12.5px;color:#f3f1ea;background:linear-gradient(0deg, rgba(20,30,22,.5), rgba(20,30,22,0))}
+  .rm-points{list-style:none;display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:44px;margin-top:44px}
+  .rm-points li{border-top:1px solid var(--line);padding-top:20px}
+  .rm-points h3{font-size:22px;line-height:1.3;margin-bottom:8px;font-weight:400}
+  .rm-points p{font-size:15.5px}
+  .rm-why-note{margin-top:36px;text-align:center;font-size:17px;color:var(--ink)}
+
+  /* 4 Reviews: a lighter panel that the latte photo sits in */
+  .rm-reviews{padding:0 0 96px}
+  .rm-reviews-box{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);background:var(--panel)}
+  .rm-reviews-photo{min-height:100%}
+  .rm-reviews-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 55%}
+  .rm-reviews-body{padding:56px 56px 52px}
+  .rm-reviews .eyebrow{margin-bottom:24px}
+  .rm-voices{list-style:none;display:grid;gap:26px;margin-bottom:34px}
+  .rm-voices li{padding-bottom:26px;border-bottom:1px solid var(--line)}
+  .rm-voices .stars{color:var(--green);font-size:13px;letter-spacing:.18em;margin-bottom:8px}
+  .rm-voices blockquote{font-size:20px;line-height:1.5;color:var(--ink);text-wrap:pretty}
+  .rm-voices cite{display:block;margin-top:8px;font-style:normal;font-family:var(--ui);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft)}
+
+  /* 5 Story: kept light, on the page colour */
+  .rm-story{padding:0 0 104px}
+  .rm-story-grid{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:64px;align-items:center}
+  .rm-story-photo{aspect-ratio:3/2;overflow:hidden}
+  .rm-story-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+  .rm-story .eyebrow{margin-bottom:14px}
+  .rm-story h2{font-size:clamp(28px, 3vw, 40px);line-height:1.2;margin-bottom:20px}
+  .rm-story p+p{margin-top:14px}
+
+  /* 6 Start */
+  .rm-start{background:var(--panel);padding:96px 0 88px}
+  .rm-start-head{max-width:640px;margin:0 auto 44px;text-align:center}
+  .rm-start-head .eyebrow{margin-bottom:14px}
+  .rm-start h2{font-size:clamp(28px, 3vw, 40px);line-height:1.2;margin-bottom:14px}
+  .rm-cards{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:28px;max-width:940px;margin-inline:auto}
+  .rm-card{display:flex;flex-direction:column;background:var(--bg);padding:0 0 30px}
+  .rm-card-img{display:flex;align-items:center;justify-content:center;gap:8px;height:230px;background:#ecebe6}
+  .rm-card-img img{height:188px;width:auto;object-fit:contain}
+  .rm-card-img img.photo{height:230px;width:50%;object-fit:cover}
+  .rm-card-img.two{justify-content:stretch;gap:0}
+  .rm-card-img.two .tin{width:50%;display:flex;justify-content:center}
+  .rm-card-body{display:flex;flex-direction:column;flex:1;padding:26px 32px 0}
+  .rm-card-label{font-family:var(--ui);font-weight:500;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+  .rm-card h3{font-size:26px;line-height:1.25;margin-bottom:4px}
+  .rm-price{font-weight:400;font-size:19px;color:var(--ink);margin-bottom:16px}
+  .rm-price small{font-family:var(--ui);font-size:11.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-left:10px}
+  .rm-card ul{list-style:none;border-top:1px solid var(--line);margin-bottom:24px}
+  .rm-card li{font-size:15px;line-height:1.6;padding:11px 0;border-bottom:1px solid var(--line)}
+  .rm-card li b{font-weight:400;color:var(--ink)}
+  .rm-card .btn{margin-top:auto}
+  .rm-card-alt{margin-top:14px;min-height:1.6em;font-size:13.5px;text-align:center}
+  .rm-card-alt a{text-decoration:none;border-bottom:1px solid var(--line)}
+  .rm-howto{max-width:940px;margin:40px auto 0;padding:30px 32px;border:1px solid var(--line)}
+  .rm-howto h3{font-size:22px;font-weight:400;margin-bottom:18px}
+  .rm-howto ol{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px;counter-reset:s}
+  .rm-howto li{counter-increment:s;font-size:15px;line-height:1.65}
+  .rm-howto li::before{content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;font-family:var(--ui);font-size:13px;margin-bottom:10px}
+  .rm-howto b{font-weight:400;color:var(--ink);display:block}
+  .rm-start-note{margin-top:26px;text-align:center;font-size:13.5px;color:var(--soft)}
+
+  /* 7 Other choices */
+  .rm-more{padding:96px 0 88px}
+  .rm-more h2{text-align:center;font-size:clamp(26px, 2.8vw, 36px);line-height:1.25;margin-bottom:40px}
+  .rm-more-grid{display:grid;grid-template-columns:repeat(3, minmax(0,1fr));gap:28px}
+  .rm-tile{display:flex;flex-direction:column;align-items:flex-start;border-top:1px solid var(--line);padding-top:8px}
+  .rm-tile-img{align-self:stretch;display:flex;justify-content:center;padding:18px 0 14px}
+  .rm-tile-img img{height:150px;width:auto;object-fit:contain}
+  .rm-tile h3{font-size:22px;font-weight:400;line-height:1.3}
+  .rm-tile h3 span{font-weight:300;margin-left:8px}
+  .rm-tile p{font-size:15px;margin:6px 0 18px}
+  .rm-tile .btn-line{margin-top:auto}
+  .rm-sub{margin-top:44px;text-align:center;font-size:15.5px}
+  .rm-sub b{font-weight:400;color:var(--ink)}
+
+  /* 8 FAQ */
+  .rm-faq{padding:0 0 104px}
+  .rm-faq-box{max-width:760px;margin-inline:auto}
+  .rm-faq h2{font-size:clamp(24px, 2.4vw, 30px);margin-bottom:18px;text-align:center}
+  .rm-faq details{border-top:1px solid var(--line)}
+  .rm-faq details:last-child{border-bottom:1px solid var(--line)}
+  .rm-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:18px 2px;font-size:17px;font-weight:400;color:var(--ink)}
+  .rm-faq summary::-webkit-details-marker{display:none}
+  .rm-faq summary::after{content:"+";font-family:var(--ui);font-size:20px;line-height:1;color:var(--green)}
+  .rm-faq details[open] summary::after{content:"–"}
+  .rm-faq details p{padding:0 2px 20px;max-width:40em}
+
+  /* 9 Closing: the header green returns once, at the end */
+  .rm-close{background:var(--green);color:#eef1ea;text-align:center;padding:88px 0 92px}
+  .rm-close h2{color:#fff;font-size:clamp(26px, 3vw, 40px);line-height:1.25;max-width:17em;margin:0 auto 14px}
+  .rm-close .sign{font-family:var(--ui);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:32px}
+  .rm-close .btn{background:#fff;color:var(--green)}
+  .rm-close .btn:hover{background:var(--panel)}
+
+  /* Mobile shortcut to the starters */
+  .rm-pill{display:none}
+
+  @media (max-width:1024px){
+    .rm-hero-copy{padding:64px 36px 64px 28px}
+    .rm-points{gap:28px}
+    .rm-reviews-body{padding:44px 36px 40px}
+    .rm-story-grid{gap:40px}
+    .rm-card-body{padding:24px 24px 0}
+    .rm-card h3{font-size:23px}
+  }
+  @media (max-width:768px){
+    .rm-hero{grid-template-columns:1fr;min-height:0}
+    .rm-hero-photo{order:-1;min-height:0;height:42vh;min-height:270px;max-height:400px}
+    .rm-hero-photo>img{object-position:48% 26%}
+    .rm-chip{left:20px;right:auto;bottom:-22px;grid-template-columns:54px 1fr;gap:10px;padding:8px 16px 8px 8px}
+    .rm-chip img{width:54px;height:54px}
+    .rm-chip span{font-size:14px}
+    .rm-hero-copy{padding:52px 20px 48px;align-items:stretch}
+    .rm-hero .eyebrow{margin-bottom:14px;font-size:10.5px;letter-spacing:.11em}
+    .rm-hero h1{font-size:33px;margin-bottom:14px}
+    .rm-hero-lead{font-size:16px;margin-bottom:22px}
+    .rm-hero-note{margin-top:14px;font-size:12.5px}
+    .rm-problem{padding:64px 0 36px}
+    .rm-problem h2{font-size:26px}
+    .rm-why{padding:28px 0 64px}
+    .rm-why-head{margin-bottom:28px}
+    .rm-why h2{font-size:26px}
+    .rm-why-photo{aspect-ratio:4/3;margin-inline:-20px}
+    .rm-why-photo img{object-position:62% 40%}
+    .rm-points{grid-template-columns:1fr;gap:22px;margin-top:30px}
+    .rm-points li{padding-top:16px}
+    .rm-reviews{padding-bottom:64px}
+    .rm-reviews-box{grid-template-columns:1fr;margin-inline:-20px}
+    .rm-reviews-photo{height:300px}
+    .rm-reviews-body{padding:32px 20px 36px}
+    .rm-voices{gap:20px;margin-bottom:26px}
+    .rm-voices li{padding-bottom:20px}
+    .rm-voices blockquote{font-size:18px}
+    .rm-story{padding-bottom:68px}
+    .rm-story-grid{grid-template-columns:1fr;gap:26px}
+    .rm-story-photo{margin-inline:-20px}
+    .rm-story h2{font-size:28px;margin-bottom:14px}
+    .rm-start{padding:64px 0 60px}
+    .rm-start-head{margin-bottom:30px}
+    .rm-start h2{font-size:28px}
+    .rm-cards{grid-template-columns:1fr;gap:20px}
+    .rm-card-img{height:190px}
+    .rm-card-img img{height:158px}
+    .rm-card-img img.photo{height:190px}
+    .rm-card-body{padding:22px 20px 0}
+    .rm-card-alt{min-height:0}
+    .rm-howto{margin-top:24px;padding:22px 20px}
+    .rm-howto ol{grid-template-columns:1fr;gap:16px}
+    .rm-howto li{position:relative;padding-left:40px}
+    .rm-howto li::before{position:absolute;left:0;top:0;margin:0}
+    .rm-why-note{font-size:15.5px;margin-top:26px;text-align:left}
+    .rm-more{padding:64px 0 60px}
+    .rm-more h2{margin-bottom:22px}
+    .rm-more-grid{grid-template-columns:1fr;gap:0}
+    .rm-tile{display:grid;grid-template-columns:96px 1fr;column-gap:16px;align-items:start;padding:18px 0}
+    .rm-tile-img{grid-row:1 / span 3;padding:0}
+    .rm-tile-img img{height:96px}
+    .rm-tile p{margin:4px 0 12px}
+    .rm-tile .btn-line{justify-self:start;padding:10px 16px;font-size:11.5px}
+    .rm-sub{margin-top:28px;text-align:left}
+    .rm-faq{padding-bottom:68px}
+    .rm-faq summary{font-size:16px;padding:16px 2px}
+    .rm-close{padding:64px 0 96px}
+    .rm-close .btn{display:block}
+    .rm-pill{display:block;position:fixed;left:50%;bottom:14px;z-index:20;transform:translate(-50%, 90px);opacity:0;transition:transform .3s, opacity .3s;white-space:nowrap;background:var(--green);color:#fff;text-decoration:none;font-family:var(--ui);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:14px 26px;border-radius:999px;box-shadow:0 10px 26px -10px rgba(20,30,22,.6)}
+    .rm-pill.on{transform:translate(-50%, 0);opacity:1}
+  }
+  @media (max-width:360px){
+    .rm-hero h1{font-size:29px}
+    .rm-hero-lead{font-size:15px}
+    .rm-problem h2,.rm-why h2{font-size:24px}
+    .rm-card h3{font-size:22px}
+  }
+  @media (max-width:768px) and (max-height:700px){
+    .rm-hero-photo{height:32vh;min-height:180px}
+    .rm-hero-copy{padding-top:44px}
+  }
+</style>
+</head>
+<body>
+
+<div class="ja-note">確認用の日本語版です。実際のページは英語です（<a href="index.html">英語版を見る</a>）。英語版と同じ並び・同じ写真で、意味をそろえて日本語にしています。</div>
+<div class="preview-bar">$75以上のご注文で米国内送料無料</div>
+<div class="preview-head"><img src="assets/images/logo.png" alt="Richly Matcha"></div>
+
+<main class="rm-lp">
+
+  <section class="rm-hero">
+    <div class="rm-hero-copy">
+      <p class="eyebrow">京都・宇治／一番茶／石臼挽き</p>
+      <h1 id="rm-title" data-b="私が日本で飲んで育った抹茶を、|アメリカでも。">日本で飲む、あの味の抹茶。<span>砂糖なしで、おいしい。</span></h1>
+      <p class="rm-hero-lead">こんにちは、Eriです。日本で抹茶を飲んで育ちましたが、アメリカではその味に出会えませんでした。そこで宇治へ行き、2年続けて一番茶の茶摘みに参加しました。</p>
+      <a class="btn" href="#start">始め方を見る</a>
+      <p class="rm-hero-note"><span class="num">$75</span>以上のご注文で米国内送料無料。ロサンゼルスから発送します。</p>
+    </div>
+    <div class="rm-hero-photo">
+      <img src="assets/images/fv-eri-field.jpg" alt="Eri picking young tea leaves in a tea field in Uji" fetchpriority="high">
+      <a class="rm-chip" href="#start">
+        <img src="assets/images/p-aya.png" alt="A tin of AYA matcha">
+        <span><b>まずはこちら</b>AYA（宇治抹茶）<br><i class="num">$39</i></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="rm-problem">
+    <div class="wrap">
+      <h2>苦い、色がくすんでいる、砂糖を入れないとおいしくない。そんな抹茶に当たったことはありませんか？</h2>
+      <p>本来の抹茶は、そんな味ではありません。</p>
+    </div>
+  </section>
+
+  <section class="rm-why">
+    <div class="wrap">
+      <div class="rm-why-head">
+        <p class="eyebrow">抹茶の味に差が出る理由</p>
+        <h2>どの缶にも「セレモニアルグレード」と書いてあります。<br class="br-pc">味の差は、作り方で決まります。</h2>
+      </div>
+      <figure class="rm-why-photo">
+        <img src="assets/images/shade-field.jpg" alt="Eri walking between rows of tea plants under a shade cover" loading="lazy">
+        <figcaption>覆いの下で育つ茶の木</figcaption>
+      </figure>
+      <ul class="rm-points">
+        <li><h3>収穫前の覆い</h3><p>摘む前に茶畑を覆って日差しをさえぎると、苦みが抑えられ、うまみが増します。</p></li>
+        <li><h3>一番茶だけ</h3><p>葉がいちばんやわらかい、その年最初の茶摘みの葉だけを使います。ZENとTAKUMIは手摘みです。</p></li>
+        <li><h3>石臼挽き</h3><p>石臼でゆっくり挽くので、色と香りが損なわれません。</p></li>
+      </ul>
+      <p class="rm-why-note">3種類とも、200年続く茶家の、宇治の一人の茶師がつくっています。</p>
+    </div>
+  </section>
+
+  <section class="rm-reviews">
+    <div class="wrap">
+      <div class="rm-reviews-box">
+        <figure class="rm-reviews-photo">
+          <img src="assets/images/latte-pour.jpg" alt="Matcha being poured over ice" loading="lazy">
+        </figure>
+        <div class="rm-reviews-body">
+          <p class="eyebrow">お客様の声</p>
+          <ul class="rm-voices">
+            <li><p class="stars" aria-label="5 out of 5 stars">★★★★★</p><blockquote>「いつもラテにしていますが、苦みはまったくありません。」</blockquote><cite>Elizabeth</cite></li>
+            <li><p class="stars" aria-label="5 out of 5 stars">★★★★★</p><blockquote>「見ているだけでうれしくなる、きれいな鮮やかな緑でした。」</blockquote><cite>Edward</cite></li>
+            <li><p class="stars" aria-label="5 out of 5 stars">★★★★★</p><blockquote>「本格的な日本の抹茶は初めてでしたが、なめらかで飲みやすく、正直驚きました。」</blockquote><cite>匿名</cite></li>
+          </ul>
+          <a class="link" href="#start">始め方を見る</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rm-story" id="story">
+    <div class="wrap rm-story-grid">
+      <figure class="rm-story-photo">
+        <img src="assets/images/eri-master-leaves.jpg" alt="Eri and the tea master looking at tea leaves together" loading="lazy">
+      </figure>
+      <div>
+        <p class="eyebrow">創業者より</p>
+        <h2>茶畑まで、自分で足を運びました。</h2>
+        <p>アメリカで出会う抹茶は苦いものばかりで、「本当はもっとおいしいのに」とずっと思っていました。そんなとき、日本の知人を通じて、200年続く茶家の5代目の茶師と出会いました。</p>
+        <p>それから2年続けて、茶師のチームと一緒に一番茶を摘みました。初めて彼の抹茶を飲んだときは、驚いて椅子から落ちそうになったほどです。今はその茶畑から、問屋を通さずにロサンゼルスへ直接届けています。数ある中から選んだのは、3種類だけです。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rm-start" id="start">
+    <div class="wrap">
+      <div class="rm-start-head">
+        <p class="eyebrow">最初の一缶</p>
+        <h2>まずは、いちばん飲みやすいAYAから。</h2>
+        <p>そのままでもなめらかで、ラテにしても抹茶の味がしっかり残ります。</p>
+      </div>
+      <div class="rm-cards">
+        <article class="rm-card">
+          <div class="rm-card-img two">
+            <div class="tin"><img src="assets/images/p-aya.png" alt="A tin of AYA matcha" loading="lazy"></div>
+            <img class="photo" src="assets/images/whisk-resin.jpg" alt="Ivory resin matcha whisk with its holder" loading="lazy">
+          </div>
+          <div class="rm-card-body">
+            <p class="rm-card-label">家で点てるのが初めての方</p>
+            <h3>AYA＋茶筅</h3>
+            <p class="rm-price num">$77<small>送料無料</small></p>
+            <ul>
+              <li><b>AYA 30g：</b>ラテ約7杯、お茶なら約15杯</li>
+              <li><b>日本製の樹脂製茶筅：</b>水に浸ける必要がなく、食洗機にも入れられます</li>
+            </ul>
+            <a class="btn" href="https://richlymatcha.com/cart/add?id[]=47309236863235&id[]=46793195028739">2点をカートに入れる</a>
+            <p class="rm-card-alt">竹の茶筅がよい方は <a href="https://richlymatcha.com/products/whitebamboowhisk">高山の茶筅はこちら</a></p>
+          </div>
+        </article>
+        <article class="rm-card">
+          <div class="rm-card-img">
+            <img src="assets/images/p-aya.png" alt="A tin of AYA matcha" loading="lazy">
+          </div>
+          <div class="rm-card-body">
+            <p class="rm-card-label">茶筅をお持ちの方</p>
+            <h3>AYA 1缶</h3>
+            <p class="rm-price num">$39</p>
+            <ul>
+              <li><b>30g：</b>ラテ約7杯、お茶なら約15杯</li>
+              <li><b>宇治産おくみどり100%</b>、一番茶</li>
+            </ul>
+            <a class="btn" href="https://richlymatcha.com/cart/add?id=47309236863235&quantity=1">カートに入れる</a>
+            <p class="rm-card-alt">2缶なら送料無料。<a href="https://richlymatcha.com/cart/add?id=47309236863235&quantity=2">2缶で<span class="num">$78</span></a></p>
+          </div>
+        </article>
+      </div>
+      <div class="rm-howto">
+        <h3>はじめての抹茶ラテ、3ステップ</h3>
+        <ol>
+          <li><b>抹茶とお湯を入れる</b>抹茶 小さじ2（約4g）と、70℃くらいのお湯 40ml。</li>
+          <li><b>点てる</b>「M」の字を描くように素早く、なめらかに泡立つまで。</li>
+          <li><b>牛乳に注ぐ</b>200〜240ml。お好みで氷を。おすすめはオーツミルク。</li>
+        </ol>
+      </div>
+      <p class="rm-start-note"><span class="num">$75</span>以上のご注文で米国内送料無料。<span class="num">1〜2</span>営業日で発送し、<span class="num">2〜5</span>営業日でお届けします。</p>
+    </div>
+  </section>
+
+  <section class="rm-more">
+    <div class="wrap">
+      <h2>お好みが決まっている方へ</h2>
+      <div class="rm-more-grid">
+        <article class="rm-tile">
+          <div class="rm-tile-img"><img src="assets/images/p-zen.png" alt="A tin of ZEN matcha" loading="lazy"></div>
+          <h3>ZEN<span class="num">$66</span></h3>
+          <p>ストレートで飲むなら。うまみが濃く、コクがあり、苦みはほとんどありません。</p>
+          <a class="btn btn-line" href="https://richlymatcha.com/products/zenmatcha30">ZENを見る</a>
+        </article>
+        <article class="rm-tile">
+          <div class="rm-tile-img"><img src="assets/images/p-takumi.png" alt="A tin of TAKUMI matcha" loading="lazy"></div>
+          <h3>TAKUMI<span class="num">$88</span></h3>
+          <p>ゆっくり味わいたいときに。深いうまみと、まろやかな口当たり。</p>
+          <a class="btn btn-line" href="https://richlymatcha.com/products/takumimatcha30">TAKUMIを見る</a>
+        </article>
+        <article class="rm-tile">
+          <div class="rm-tile-img"><img src="assets/images/p-tasting.png" alt="Tins of AYA, ZEN and TAKUMI matcha" loading="lazy"></div>
+          <h3>飲み比べセット<span class="num">$158</span></h3>
+          <p>迷ったら、3種類を飲み比べ。</p>
+          <a class="btn btn-line" href="https://richlymatcha.com/products/tastingsettakumizenaya">セットを見る</a>
+        </article>
+      </div>
+      <p class="rm-sub">ZENとTAKUMIは手摘みで、棚がけの覆いの下で育てています。<b>定期便なら<span class="num">10%</span> OFF：</b>毎月お届け、送料はいつも無料。スキップも解約もいつでもできます。 <a class="link" href="https://richlymatcha.com/collections/subscription-matcha">定期便を見る</a></p>
+    </div>
+  </section>
+
+  <section class="rm-faq">
+    <div class="wrap rm-faq-box">
+      <h2>よくある質問</h2>
+      <details>
+        <summary>茶筅は必要ですか？</summary>
+        <p>いちばんきめ細かく泡立つのは茶筅です。なければ、ハンディのミルクフォーマーでも代用できます。</p>
+      </details>
+      <details>
+        <summary>1缶で何杯分ですか？</summary>
+        <p>ラテなら約7杯分です（1杯あたり小さじ2、約4g）。お茶として飲むなら約15杯分です。</p>
+      </details>
+      <details>
+        <summary>保存方法は？</summary>
+        <p>缶のふたをしっかり閉め、涼しく暗い場所で保存してください。冷蔵庫に入れる場合は、湿気が入らないよう、室温に戻してから開けてください。</p>
+      </details>
+      <details>
+        <summary>AYAはラテに向いていますか？</summary>
+        <p>はい。牛乳と合わせても、抹茶の味がしっかり残ります。ストレートで飲むことが多いなら、ZENもおすすめです。</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="rm-close">
+    <div class="wrap">
+      <h2>抹茶のイメージが変わる一杯になれば、うれしいです。</h2>
+      <p class="sign">創業者 Eri</p>
+      <a class="btn" href="#start">始め方を選ぶ</a>
+    </div>
+  </section>
+
+  <a class="rm-pill" id="rm-pill" href="#start">AYAから始める · <span class="num">$39</span></a>
+</main>
+<script>
+  (function(){
+    // Mobile shortcut: shown after the hero, hidden while the starters or the closing are on screen
+    var pill = document.getElementById('rm-pill');
+    var hero = document.querySelector('.rm-hero'), hide = document.querySelectorAll('.rm-start, .rm-close');
+    if (pill && 'IntersectionObserver' in window) {
+      var pastHero = false, blocked = new Set();
+      var paint = function(){ pill.classList.toggle('on', pastHero && blocked.size === 0); };
+      new IntersectionObserver(function(e){ pastHero = !e[0].isIntersecting; paint(); }).observe(hero);
+      var io = new IntersectionObserver(function(es){ es.forEach(function(e){ e.isIntersecting ? blocked.add(e.target) : blocked.delete(e.target); }); paint(); });
+      hide.forEach(function(el){ io.observe(el); });
+    }
+    // Preview switch only: ?h=b shows headline B
+    if (new URLSearchParams(location.search).get('h') === 'b') {
+      var t = document.getElementById('rm-title'), p = t.dataset.b.split('|');
+      t.textContent = p[0];
+      var s = document.createElement('span'); s.textContent = p[1]; t.appendChild(s);
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>実装メモ｜Richly Matcha 商品ページ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Reddit+Sans:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ecebe6;--panel:#f7f6f2;--ink:#2f302d;--text:#4a4a46;--soft:#66675f;--green:#4b6c4f;--line:#d3d1c9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font:400 15px/1.75 "Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
+.w{max-width:880px;margin:0 auto;padding:36px 16px 64px}
+h1{font-size:24px;font-weight:500;color:var(--ink);line-height:1.4}
+.date{color:var(--soft);font-size:13px;margin-top:4px}
+.lead{margin-top:14px}
+h2{font-size:18px;font-weight:500;color:var(--ink);margin:40px 0 10px;padding-top:18px;border-top:1px solid var(--line)}
+h3{font-size:15.5px;font-weight:500;color:var(--ink);margin:24px 0 8px}
+p+p{margin-top:8px}
+a{color:var(--green)}
+.card{background:var(--panel);border:1px solid var(--line);padding:16px 18px;margin-top:12px}
+.card b{color:var(--ink);font-weight:500}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.links a{display:inline-block;background:var(--green);color:#fff;text-decoration:none;padding:8px 14px;font-size:14px}
+.links a.sub{background:transparent;color:var(--green);border:1px solid var(--green)}
+.tw{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;min-width:560px;background:var(--panel);font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#e6e5df;font-weight:500;color:var(--ink);white-space:nowrap}
+td.en{font-family:"Reddit Sans","Noto Sans JP",sans-serif}
+code{font-size:13px;background:#e6e5df;padding:1px 5px}
+.must{border-left:4px solid var(--green)}
+.note{font-size:13.5px;color:var(--soft);margin-top:8px}
+ol.p,ul.p{padding-left:1.4em;margin-top:6px}
+ol.p li+li,ul.p li+li{margin-top:4px}
+.kari{color:#8a5a14;font-weight:500}
+nav.toc{background:var(--panel);border:1px solid var(--line);padding:12px 18px;margin-top:18px;font-size:14px}
+nav.toc a{display:block;padding:2px 0}
+</style>
+</head>
+<body><div class="w">
+
+<h1>商品ページ 実装メモ（AYA・ZEN・TAKUMI）</h1>
+<p class="date">2026年11月10日　佐藤　／　テーマ：Luxe</p>
+<p class="lead">デザイン（<a href="../product/index.html?p=aya">商品ページ</a>）を、今のテーマで組むためのメモです。すべてテーマの画面で直せて、コードの編集はいりません。英文が本番用で、日本語は確認用の訳です。<span class="kari">【仮】</span>の印があるものは、決まりしだい差し替えます。</p>
+<nav class="toc">
+<a href="#must">1. 商品ページと必ずセットで直すこと（2つ）</a>
+<a href="#order">2. 3商品共通の並び（上から）</a>
+<a href="#common">3. 3商品共通の文</a>
+<a href="#aya">4. AYA</a><a href="#zen">5. ZEN</a><a href="#takumi">6. TAKUMI</a>
+<a href="#bf">7. ブラックフライデー期間だけの変更（11/18〜11/30）</a>
+<a href="#kari">8. 【仮】の一覧</a>
+</nav>
+
+<h2 id="must">1. 商品ページと必ずセットで直すこと（2つ）</h2>
+<p>商品ページを直しても、この2つが残っていると、カートに入れた方がチェックアウトで離れてしまいます。<b>11/18（セール開始）までに</b>お願いします。テーマではなく、Shopify管理画面の設定です。</p>
+
+<div class="tw"><table>
+<tr><th>#</th><th>やること</th><th>なぜ</th><th>やり方</th><th>時間</th></tr>
+<tr><td>1</td><td><b>送料の金額を1つに決めて、サイトの表記をそろえる</b></td>
+<td>実際の送料は$5（10/29・11/1・11/5のご注文）ですが、配送ポリシーと商品ページには「$75未満は$8」と書かれています。実際より高い金額を読んで、買うのをやめる方が出ます。</td>
+<td>① 正しい金額を決める（今の設定は 設定 → 配送と配達）<br>② 配送ポリシー（設定 → ポリシー）と、商品ページの Shipping &amp; Returns の文を直す<br>③ 価格の下とカートの「Shipping calculated at checkout.」を、オンラインストア → テーマ →「…」→「デフォルトテーマのコンテンツを編集」で書きかえる（文は下の「商品ごとの文」）</td><td>約20分</td></tr>
+<tr><td>2</td><td><b>カゴ落ちの方へのメール（Complete your order）が届くようにする</b></td>
+<td>過去90日のカゴ落ち4件すべてで、メールが「未送信」でした。$314.99のカートの方も、そのまま戻られていません。セール中はカゴ落ちも増えます。</td>
+<td>Messaging → 自動化 → 赤いマークの付いた「Recover abandoned checkout」→ 編集 → メールの下書きを適用する。同じ名前の自動化が3つあるので、1つを残してほかは無効にする（2通届かないように）。最後に、ご自身のメールでカゴ落ちを1件作り、メールが届くかを確かめる。</td><td>約20分</td></tr>
+</table></div>
+
+
+<h2 id="order">2. 3商品共通の並び（上から）</h2>
+<p>入れ方：オンラインストア → テーマ →「カスタマイズ」→ 上のページ選択で「商品」→ 左の「商品情報」にブロックを足す・並べ替える。</p>
+<div class="tw"><table>
+<tr><th>順</th><th>入れるもの</th><th>Luxeのブロック</th><th>今のページとの違い</th></tr>
+<tr><td>写真</td><td>缶 → 飲んでいる・点てている写真 → 缶と粉</td><td>商品のメディア</td><td>2枚目・3枚目を入れ替え。スマホで写真の枠を横5：縦4にできれば、購入ボタンが上に来る（できなければ正方形のままで可）</td></tr>
+<tr><td>1</td><td>商品名の上の一言</td><td>Text</td><td>新しく足す</td></tr>
+<tr><td>2</td><td>商品名・★・価格</td><td>今のまま</td><td>—</td></tr>
+<tr><td>3</td><td>価格の下の送料の一文</td><td>デフォルトテーマのコンテンツ</td><td>「Shipping calculated at checkout.」を書きかえ</td></tr>
+<tr><td>4</td><td>説明（1段落）</td><td>Description の1段落目</td><td>今の「Tasting Profile」「Origin &amp; Craft」は消さずに折りたたみ③へ</td></tr>
+<tr><td>5</td><td>Shop Pay の分割払いの一文</td><td>Shopify が自動で出す</td><td>触らない</td></tr>
+<tr><td>6</td><td>数量・買い方（1回だけ／定期便）・定期便の一文</td><td>今のまま（文だけ直す）</td><td>定期便の一文を下の「共通の文」に</td></tr>
+<tr><td>7</td><td>Add to bag・Buy with shop</td><td>Buy buttons</td><td>—</td></tr>
+<tr><td>8</td><td>「創業者のEriが宇治で選んだ」一文（写真つき）</td><td>Text か Custom Liquid</td><td>新しく足す。左に小さな写真（eri-master-leaves.jpg、84pxの正方形）、背景は #f4f3ef</td></tr>
+<tr><td>9</td><td>お客様の一言（★5つ＋引用＋名前＋レビューへのリンク）</td><td>Text</td><td>新しく足す。3つともサイトに出ている実際のレビュー</td></tr>
+<tr><td>10</td><td>小さな印4つ</td><td>Feature icons</td><td>新しく足す。線の細いアイコン</td></tr>
+<tr><td>11</td><td>おすすめ商品2つ</td><td>Upsell products</td><td>今の「Pairs Better With」（TAKUMI・ほうじ茶）を置きかえ</td></tr>
+<tr><td>12</td><td>折りたたみ4つ：①作り方 ②選び方 ③味と産地 ④配送と返品</td><td>Collapsible row</td><td>①②は新しく足す。③は今の文を移す。④は文を直す</td></tr>
+<tr><td>13</td><td>Eriさんのストーリー（写真＋本文＋リンク）</td><td>Image with text（商品情報の下）</td><td>新しく足す。8の「Her story」のリンク先</td></tr>
+<tr><td>14</td><td>レビュー</td><td>今のまま（Judge.me）</td><td>—</td></tr>
+<tr><td>15</td><td>3種類の宇治抹茶（AYA・ZEN・TAKUMIへのリンク）</td><td>Related products など</td><td>新しく足す（無理なら省略可）</td></tr>
+<tr><td>スマホ</td><td>下に付いてくる購入ボタン</td><td>テーマ設定の sticky buy buttons</td><td>オンにする。スマホでは購入ボタンが画面2枚分ほど下にあるため</td></tr>
+</table></div>
+
+<h2 id="common">3. 3商品共通の文</h2>
+<div class="tw"><table><tr><th></th><th>英語（本番）</th><th>日本語訳</th></tr><tr><th>定期便の一文</th><td class="en">Free shipping on every delivery. Skip or cancel anytime. <u>View subscription policy</u></td><td>毎回送料無料。スキップも解約もいつでもできます。<u>定期便の規約を見る</u></td></tr><tr><th>Eriさんの一文（8）</th><td class="en"><b>Chosen in Uji by Eri, our founder.</b> She worked two first harvests alongside a fifth-generation tea master and chose just three matchas to bring to the U.S. <u>Her story</u></td><td><b>創業者のEriが、宇治で選んだ抹茶。</b>5代目の茶師と2年続けて一番茶を摘み、アメリカに届ける抹茶を3種類だけ選びました。<u>ストーリーを読む</u></td></tr><tr><th>折りたたみ②の見出し</th><td class="en">AYA, ZEN or TAKUMI?</td><td>AYA・ZEN・TAKUMIの選び方</td></tr><tr><th>選び方 AYA</th><td class="en"><b>AYA</b> — Smooth and approachable. A great first matcha, straight or in a latte.</td><td><b>AYA</b>：なめらかで飲みやすい。最初の一缶に。そのままでもラテでも。</td></tr><tr><th>選び方 ZEN</th><td class="en"><b>ZEN</b> — Umami-forward with a fuller body. Our pick for drinking straight.</td><td><b>ZEN</b>：うまみが濃く、コクがある。ストレートで飲むならこれ。</td></tr><tr><th>選び方 TAKUMI</th><td class="en"><b>TAKUMI</b> — Deep umami and a rounded, lingering finish. For slow, special moments.</td><td><b>TAKUMI</b>：深いうまみと、まろやかに長く残る余韻。ゆっくり味わいたいときに。</td></tr><tr><th>折りたたみ④ 配送</th><td class="en">U.S. shipping is a flat $5. Orders over $75 and all subscription orders ship free. We ship from Los Angeles within 1–2 business days, and orders usually arrive in 2–5 business days. <span class="kari">【$5は仮】</span></td><td>米国内の送料は一律$5。$75以上のご注文と定期便は送料無料です。ロサンゼルスから1〜2営業日で発送し、通常2〜5営業日でお届けします。</td></tr><tr><th>折りたたみ④ 返品</th><td class="en">Returns or exchanges are accepted if you received an item different from what you ordered, or if your item arrived damaged or defective. Please contact us within 7 days of receiving your package.</td><td>ご注文と違う商品が届いた場合、破損・不良があった場合は、返品・交換を承ります。お受け取りから7日以内にご連絡ください。</td></tr><tr><th>ストーリーの小見出し</th><td class="en">Our story</td><td>私たちのストーリー</td></tr><tr><th>ストーリーの見出し</th><td class="en">Chosen by Eri, our founder</td><td>創業者Eriが選んだ抹茶</td></tr><tr><th>ストーリーの本文</th><td class="en">“I grew up drinking matcha in Japan and couldn’t find that taste in the U.S. So I went to Uji, met a fifth-generation tea master, and joined his team for the first harvest two years in a row. Out of everything I tasted there, I chose only three. AYA is one of them.”<br>（ZEN・TAKUMIのページは最後の商品名だけ変える）</td><td>「日本で抹茶を飲んで育ちましたが、アメリカではその味に出会えませんでした。そこで宇治へ行き、5代目の茶師と出会い、2年続けて一緒に一番茶を摘みました。そこで飲み比べたなかから選んだのは、3種類だけ。AYAはそのひとつです。」</td></tr><tr><th>ストーリーのリンク</th><td class="en">Read our story（/pages/our-story）</td><td>ストーリーを読む</td></tr></table></div>
+<p class="note">ストーリーの写真：<a href="../product/img/eri-master-leaves.jpg" download>eri-master-leaves.jpg</a>（Eriさんと茶師）。茶師の方のお顔を出してよいか<span class="kari">【確認中】</span>。</p>
+<h2 id="aya">AYA（AYA Ceremonial Grade Uji Matcha 30g）</h2><p class="note">今のページ：<a href="https://richlymatcha.com/products/ayamatcha30">richlymatcha.com/products/ayamatcha30</a>　デザイン：<a href="../product/index.html?p=aya">英語</a>・<a href="../product/index.html?p=aya&amp;lang=ja">日本語訳</a></p><h3>写真の並び</h3><p>商品管理 → 商品 → メディアで並べ替え。4枚目以降は今の写真のままで大丈夫です。</p><div class="tw"><table><tr><th>順</th><th>写真</th><th>ファイル</th></tr><tr><th>1枚目</th><td>今の缶の写真（そのまま）</td><td><a href="../product/img/p-aya.png" download>p-aya.png</a></td></tr><tr><th>2枚目</th><td>ラテを注いでいる写真（じゅんさん写真 RichlyMatcha_12）</td><td><a href="../product/img/latte-pour.jpg" download>latte-pour.jpg</a></td></tr><tr><th>3枚目</th><td>缶と粉（じゅんさん写真 RichlyMatcha_25）</td><td><a href="../product/img/aya-powder.jpg" download>aya-powder.jpg</a></td></tr></table></div><h3>文</h3><div class="tw"><table><tr><th></th><th>英語（本番）</th><th>日本語訳</th></tr><tr><th>商品名の上の一言</th><td class="en">Our most approachable matcha</td><td>いちばん飲みやすい抹茶</td></tr><tr><th>価格の下の送料</th><td class="en">$5 flat-rate U.S. shipping. <u>Free on orders over $75</u>: two tins, or a tin and a whisk.</td><td>米国内の送料は一律$5。<u>$75以上のご注文で無料</u>（2缶、または1缶と茶筅）。</td></tr><tr><th>説明（1段落目）</th><td class="en">Start here if you’re new to real matcha. AYA is smooth and gentle, with balanced umami and just a hint of bitterness. Drink it straight or as a latte. The matcha comes through either way.</td><td>本格的な抹茶が初めてなら、ここから。AYAはなめらかでやさしい味わいで、うまみのバランスがよく、苦みはほんのわずか。そのままでも、ラテにしても、抹茶の味がしっかり残ります。</td></tr><tr><th>印 1</th><td class="en">Ships from Los Angeles in 1–2 business days</td><td>ロサンゼルスから1〜2営業日で発送</td></tr><tr><th>印 2</th><td class="en">Free U.S. shipping over $75</td><td>$75以上で米国内送料無料</td></tr><tr><th>印 3</th><td class="en">First harvest from Uji, Kyoto</td><td>京都・宇治の一番茶</td></tr><tr><th>印 4</th><td class="en">About 7 lattes, or 15 cups straight, per tin</td><td>1缶でラテ約7杯、そのまま飲むなら約15杯</td></tr><tr><th>お客様の一言</th><td class="en">★★★★★ “I usually make it as a latte, and there’s no bitterness at all.” — Elizabeth</td><td>★★★★★ 「いつもラテにしていますが、苦みはまったくありません。」 — Elizabethさん</td></tr><tr><th>おすすめ商品の見出し</th><td class="en">New to matcha? Add a whisk.</td><td>初めてなら、茶筅もいっしょに。</td></tr><tr><th>おすすめ商品</th><td class="en">Ivory Resin Matcha Whisk（$38.00） / White Bamboo Matcha Whisk（$76.00）</td><td>同左</td></tr><tr><th>おすすめ商品の下</th><td class="en">Add either whisk and your order ships free.</td><td>どちらの茶筅を足しても、送料無料になります。</td></tr><tr><th>折りたたみ①の見出し</th><td class="en">How to make a matcha latte</td><td>抹茶ラテの作り方</td></tr><tr><th>手順 1</th><td class="en"><b>Add matcha and hot water.</b> 2 teaspoons (about 4g) of matcha and about 1.5 oz (40 ml) of water, around 158°F (70°C).</td><td><b>抹茶とお湯を入れる。</b>抹茶小さじ2（約4g）と、70℃くらいのお湯を40ml。</td></tr><tr><th>手順 2</th><td class="en"><b>Whisk.</b> Briskly, in an “M” motion, until smooth and foamy.</td><td><b>点てる。</b>「M」の字を描くように素早く、なめらかに泡立つまで。</td></tr><tr><th>手順 3</th><td class="en"><b>Pour over milk.</b> 7–8 oz (200–240 ml), with ice if you like. Oat milk is our favorite.</td><td><b>牛乳に注ぐ。</b>200〜240ml。お好みで氷を。おすすめはオーツミルク。</td></tr><tr><th>味と産地（今の文）</th><td class="en">Smooth and approachable with balanced umami, gentle bitterness, and a clean, refreshing character.<br>Uji, Kyoto · Okumidori Cultivar · First Harvest · Sheared · Direct-Cover Shade-Grown · Stone-Milled</td><td>なめらかで親しみやすく、うまみのバランスがよく、苦みはやさしく、すっきりとした後味。<br>京都・宇治／品種：おくみどり／一番茶／機械摘み／直がけ（覆い下栽培）／石臼挽き</td></tr></table></div><h2 id="zen">ZEN（ZEN Ceremonial Grade Uji Matcha 30g）</h2><p class="note">今のページ：<a href="https://richlymatcha.com/products/zenmatcha30">richlymatcha.com/products/zenmatcha30</a>　デザイン：<a href="../product/index.html?p=zen">英語</a>・<a href="../product/index.html?p=zen&amp;lang=ja">日本語訳</a></p><h3>写真の並び</h3><p>商品管理 → 商品 → メディアで並べ替え。4枚目以降は今の写真のままで大丈夫です。</p><div class="tw"><table><tr><th>順</th><th>写真</th><th>ファイル</th></tr><tr><th>1枚目</th><td>今の缶の写真（そのまま）</td><td><a href="../product/img/p-zen.png" download>p-zen.png</a></td></tr><tr><th>2枚目</th><td>茶碗で点てている写真（あずちゃん一眼レフ写真 DSC00425 を正方形に切り出し）<span class="kari">【仮】</span></td><td><a href="../product/img/whisked.jpg" download>whisked.jpg</a></td></tr><tr><th>3枚目</th><td>缶と粉（じゅんさん写真 RichlyMatcha_28）</td><td><a href="../product/img/zen-powder.jpg" download>zen-powder.jpg</a></td></tr></table></div><h3>文</h3><div class="tw"><table><tr><th></th><th>英語（本番）</th><th>日本語訳</th></tr><tr><th>商品名の上の一言</th><td class="en">Our pick for drinking straight</td><td>ストレートで飲むなら</td></tr><tr><th>価格の下の送料</th><td class="en">$5 flat-rate U.S. shipping. <u>Free on orders over $75.</u></td><td>米国内の送料は一律$5。<u>$75以上のご注文で無料</u>。</td></tr><tr><th>説明（1段落目）</th><td class="en">For when you want to taste the matcha itself. ZEN is hand-picked and shade-grown under a raised canopy, which gives it rich umami, a full body, and very little bitterness. Whisk it with hot water and drink it straight.</td><td>抹茶そのものの味を楽しみたいときに。ZENは手摘みで、高く張った覆いの下で育てています。そのため、うまみが濃く、コクがあり、苦みはほとんどありません。お湯で点てて、そのまま飲んでください。</td></tr><tr><th>印 1</th><td class="en">Ships from Los Angeles in 1–2 business days</td><td>ロサンゼルスから1〜2営業日で発送</td></tr><tr><th>印 2</th><td class="en">Free U.S. shipping over $75</td><td>$75以上で米国内送料無料</td></tr><tr><th>印 3</th><td class="en">Hand-picked first harvest from Uji, Kyoto</td><td>京都・宇治の一番茶、手摘み</td></tr><tr><th>印 4</th><td class="en">About 15 cups per tin</td><td>1缶で約15杯分</td></tr><tr><th>お客様の一言</th><td class="en">★★★★★ “I’ve tried many different ‘Ceremonial Grade’ matchas, but this one is in a completely different league.” — Alex</td><td>★★★★★ 「『セレモニアルグレード』の抹茶をいろいろ試してきましたが、これはまったく別格です。」 — Alexさん</td></tr><tr><th>おすすめ商品の見出し</th><td class="en">Make it the traditional way.</td><td>昔ながらの道具で点てる。</td></tr><tr><th>おすすめ商品</th><td class="en">White Bamboo Matcha Whisk（$76.00） / Katakuchi Chawan（$118.00）</td><td>同左</td></tr><tr><th>おすすめ商品の下</th><td class="en">Add either one and your order ships free.</td><td>どちらを足しても、送料無料になります。</td></tr><tr><th>折りたたみ①の見出し</th><td class="en">How to whisk matcha</td><td>抹茶の点て方</td></tr><tr><th>手順 1</th><td class="en"><b>Sift the matcha.</b> 1 teaspoon (about 2g) into a bowl.</td><td><b>抹茶をふるう。</b>小さじ1（約2g）を茶碗に。</td></tr><tr><th>手順 2</th><td class="en"><b>Add hot water.</b> About 2 oz (60–70 ml), around 158–167°F (70–75°C).</td><td><b>お湯を注ぐ。</b>70〜75℃くらいのお湯を60〜70ml。</td></tr><tr><th>手順 3</th><td class="en"><b>Whisk and drink.</b> Briskly, in an “M” motion, until a fine foam forms. Drink it right away.</td><td><b>点てて、すぐに。</b>「M」の字を描くように素早く、きめ細かい泡が立つまで。</td></tr><tr><th>味と産地（今の文）</th><td class="en">Umami-forward with minimal bitterness and a smooth, slightly fuller body. Refined and beautifully balanced.<br>Uji, Kyoto · Samidori Cultivar · First Harvest · Hand-Picked · Shade-Grown (Tana) · Stone-Milled</td><td>うまみが前に出て、苦みは少なく、なめらかでやや厚みのある口当たり。上品でバランスのよい味わい。<br>京都・宇治／品種：さみどり／一番茶／手摘み／棚がけ（覆い下栽培）／石臼挽き</td></tr></table></div><h2 id="takumi">TAKUMI（TAKUMI Ceremonial Grade Uji Matcha 30g）</h2><p class="note">今のページ：<a href="https://richlymatcha.com/products/takumimatcha30">richlymatcha.com/products/takumimatcha30</a>　デザイン：<a href="../product/index.html?p=takumi">英語</a>・<a href="../product/index.html?p=takumi&amp;lang=ja">日本語訳</a></p><h3>写真の並び</h3><p>商品管理 → 商品 → メディアで並べ替え。4枚目以降は今の写真のままで大丈夫です。</p><div class="tw"><table><tr><th>順</th><th>写真</th><th>ファイル</th></tr><tr><th>1枚目</th><td>今の缶の写真（そのまま）</td><td><a href="../product/img/p-takumi.png" download>p-takumi.png</a></td></tr><tr><th>2枚目</th><td>茶碗で点てている写真（ZENと同じ）<span class="kari">【仮】</span></td><td><a href="../product/img/whisked.jpg" download>whisked.jpg</a></td></tr><tr><th>3枚目</th><td>缶と粉（じゅんさん写真 RichlyMatcha_31）</td><td><a href="../product/img/takumi-powder.jpg" download>takumi-powder.jpg</a></td></tr></table></div><h3>文</h3><div class="tw"><table><tr><th></th><th>英語（本番）</th><th>日本語訳</th></tr><tr><th>商品名の上の一言</th><td class="en">Our richest matcha</td><td>いちばん濃い抹茶</td></tr><tr><th>価格の下の送料</th><td class="en">This tin <u>ships free</u> in the U.S.</td><td>この1缶で<u>米国内送料無料</u>です。</td></tr><tr><th>説明（1段落目）</th><td class="en">For slow, special moments. TAKUMI is made entirely from Gokō, a cultivar prized for its deep umami. Hand-picked and shade-grown under a raised canopy, it has a smooth, rounded texture and a finish that lingers.</td><td>ゆっくり味わいたい、特別なひとときに。TAKUMIは、うまみの深さで知られる品種「ごこう」だけでつくっています。手摘みで、高く張った覆いの下で育て、まろやかな口当たりと、長く残る余韻があります。</td></tr><tr><th>印 1</th><td class="en">Ships from Los Angeles in 1–2 business days</td><td>ロサンゼルスから1〜2営業日で発送</td></tr><tr><th>印 2</th><td class="en">Ships free</td><td>送料無料</td></tr><tr><th>印 3</th><td class="en">Hand-picked first harvest from Uji, Kyoto</td><td>京都・宇治の一番茶、手摘み</td></tr><tr><th>印 4</th><td class="en">100% Gokō cultivar</td><td>品種「ごこう」100%</td></tr><tr><th>お客様の一言</th><td class="en">★★★★★ “It’s absolutely worth every penny.” — Alex</td><td>★★★★★ 「値段の価値は十分にあります。」 — Alexさん</td></tr><tr><th>おすすめ商品の見出し</th><td class="en">Make it the traditional way.</td><td>昔ながらの道具で点てる。</td></tr><tr><th>おすすめ商品</th><td class="en">Black Bamboo Matcha Whisk（$89.00） / Katakuchi Chawan（$118.00）</td><td>同左</td></tr><tr><th>折りたたみ①の見出し</th><td class="en">How to whisk matcha</td><td>抹茶の点て方</td></tr><tr><th>手順 1</th><td class="en"><b>Sift the matcha.</b> 1 teaspoon (about 2g) into a bowl.</td><td><b>抹茶をふるう。</b>小さじ1（約2g）を茶碗に。</td></tr><tr><th>手順 2</th><td class="en"><b>Add hot water.</b> About 2 oz (60–70 ml), around 158–167°F (70–75°C).</td><td><b>お湯を注ぐ。</b>70〜75℃くらいのお湯を60〜70ml。</td></tr><tr><th>手順 3</th><td class="en"><b>Whisk and drink.</b> Briskly, in an “M” motion, until a fine foam forms. Drink it right away.</td><td><b>点てて、すぐに。</b>「M」の字を描くように素早く、きめ細かい泡が立つまで。</td></tr><tr><th>味と産地（今の文）</th><td class="en">Deep, abundant umami with an exceptionally smooth, rounded texture and an elegant, lingering finish.<br>Uji, Kyoto · Gokō Cultivar · First Harvest · Hand-Picked · Shade-Grown (Tana) · Stone-Milled</td><td>深く豊かなうまみ、際立ってなめらかでまろやかな口当たり、上品に長く残る余韻。<br>京都・宇治／品種：ごこう／一番茶／手摘み／棚がけ（覆い下栽培）／石臼挽き</td></tr></table></div>
+<p class="note">TAKUMIは1缶$88で送料無料のため、おすすめ商品の下の一文はありません。</p>
+
+<h2 id="bf">7. ブラックフライデー期間だけの変更（11/18 0:00〜11/30 23:59 太平洋時間）</h2>
+<div class="tw"><table>
+<tr><th>場所</th><th>英語（本番）</th><th>やり方・注意</th></tr>
+<tr><td>ページ上部の帯</td><td class="en">Black Friday: 40% off AYA, ZEN &amp; TAKUMI tins, Nov 18–30. Discount applied at checkout.</td><td>テーマ設定の Announcement bar の文を1か所変えるだけで、全ページに出ます。<b>下の枠が間に合わなくても、これだけは11/18に入れてください。</b>12/1に「FREE shipping for US orders over $75」へ戻す</td></tr>
+<tr><td>価格のすぐ下の枠</td><td class="en"><b>Black Friday: 40% off. AYA is $23.40.</b>（ZEN $39.60／TAKUMI $52.80）<br><small>Applied automatically at checkout · Nov 18–30</small></td><td>Text か Custom Liquid。自動割引は商品ページの価格表示を変えないため、ここで知らせます。Custom Liquid なら <code>{{ product.price | times: 0.6 | money }}</code> で金額が出ます。比較価格（Compare-at）は触らない（自動割引と二重に引かれるため）</td></tr>
+<tr><td>価格の下の送料の一文</td><td class="en">$5 flat-rate U.S. shipping. Free on orders over $75.</td><td>3商品ともこの文に。割引後は TAKUMI 1缶 $52.80、AYA＋樹脂の茶筅 $57.60〜$61.40（茶筅の割引しだい）で、$75に届かないため</td></tr>
+<tr><td>TAKUMIの印2つ目</td><td class="en">Free U.S. shipping over $75</td><td>「Ships free」から変える。12/1に戻す</td></tr>
+<tr><td>AYAのおすすめ商品の下の一文</td><td class="en">（外す）</td><td>12/1に戻す</td></tr>
+</table></div>
+
+<h2 id="kari">8. 【仮】の一覧</h2>
+<div class="tw"><table>
+<tr><th>場所</th><th>今の仮</th><th>決まったら</th></tr>
+<tr><td>送料の一文・配送と返品</td><td>一律$5</td><td>$5か$8か決まったら、配送ポリシーと合わせて直す</td></tr>
+<tr><td>ZEN・TAKUMIの2枚目の写真</td><td>茶碗で点てている写真（DSC00425）</td><td>使ってよいか、どの抹茶かのご確認。白い背景で撮った写真があれば差し替え</td></tr>
+<tr><td>ストーリーの写真</td><td>茶師の方のお顔が写った写真</td><td>NGなら手と茶葉の写真に替える</td></tr>
+<tr><td>AYA・ZENの印（杯数）</td><td>お湯で飲むなら1缶で約15杯（1杯2gで計算）</td><td>おすすめの量に合わせる</td></tr>
+</table></div>
+
+<p class="note" style="margin-top:48px">このページは確認用です。検索には表示されません。ご確認が終わりましたら削除します。</p>
+</div></body></html>
