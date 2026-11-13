@@ -207,7 +207,7 @@
       <a class="btn" href="#" id="add"></a>
       <div class="shopbtn" id="shopbtn"></div>
       <!-- the reason to choose this matcha, in two lines: Text block or Custom Liquid under the buy buttons -->
-      <div class="why"><img src="img/eri-master-leaves.jpg" alt=""><p id="why"></p></div>
+      <div class="why"><img src="img/leaves-hand.jpg" alt=""><p id="why"></p></div>
       <p class="quote" id="quote"></p>
       <div class="icons" id="icons"></div>
       <div class="ups" id="ups"></div>
@@ -217,7 +217,7 @@
 
   <section class="founder" id="story">
     <div class="wrap">
-      <img src="img/eri-master-leaves.jpg" alt="">
+      <img src="img/leaves-hand.jpg" alt="">
       <div class="tx">
         <p class="eb" id="feb"></p>
         <h2 id="fh"></h2>
@@ -367,8 +367,8 @@ $('opts').innerHTML = `<p><span class="r on"></span>${L('One-time purchase','1�
 $('subnote').innerHTML = L('Free shipping on every delivery. Skip or cancel anytime. <u>View subscription policy</u>','毎回送料無料。スキップも解約もいつでもできます。<u>定期便の規約を見る</u>');
 $('add').textContent = L('Add to bag','カートに入れる');
 $('shopbtn').innerHTML = L('Buy with shop','shopで購入');
-$('why').innerHTML = L('<b>Chosen in Uji by Eri, our founder.</b>She worked two first harvests alongside a fifth-generation tea master and chose just three matchas to bring to the U.S. <a href="#story">Her story</a>',
-                       '<b>創業者のEriが、宇治で選んだ抹茶。</b>5代目の茶師と2年続けて一番茶を摘み、アメリカに届ける抹茶を3種類だけ選びました。<a href="#story">ストーリーを読む</a>');
+$('why').innerHTML = L('<b>Chosen in Uji by Eri, our founder.</b>She spent years learning from a fifth-generation tea master and chose just three matchas to bring to the U.S. <a href="#story">Her story</a>',
+                       '<b>創業者のEriが、宇治で選んだ抹茶。</b>何年も5代目の茶師から学び、アメリカに届ける抹茶を3種類だけ選びました。<a href="#story">ストーリーを読む</a>');
 $('quote').innerHTML = `<i>★★★★★</i>${d.quote[0]}<span>— ${d.quote[1]}${L('','さん')} · <a href="#revs">${L('Read ' + (d.rc === 2 ? 'both' : 'all ' + d.rc) + ' reviews','レビュー' + d.rc + '件を読む')}</a></span>`;
 const icons = d.icons.map(([k,t]) => (BF && k === 'box') ? [k, L('Free U.S. shipping over $75','$75以上で米国内送料無料')] : [k,t]);
 $('icons').innerHTML = icons.map(([k,t]) => `<div>${ICON[k]}<span>${t}</span></div>`).join('');
