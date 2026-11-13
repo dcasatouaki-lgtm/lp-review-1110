@@ -276,7 +276,7 @@ const D = {
     tag:L('Our most approachable matcha','いちばん飲みやすい抹茶'),
     desc:L('Start here if you’re new to real matcha. AYA is smooth and gentle, with balanced umami and just a hint of bitterness. Drink it straight or as a latte. The matcha comes through either way.',
            '本格的な抹茶が初めてなら、ここから。AYAはなめらかでやさしい味わいで、うまみのバランスがよく、苦みはほんのわずか。そのままでも、ラテにしても、抹茶の味がしっかり残ります。'),
-    icons:[['truck',L('Ships from Los Angeles in 1–2 business days','ロサンゼルスから1〜2営業日で発送')],['box',L('Free U.S. shipping over $75','$75以上で米国内送料無料')],['leaf',L('First harvest from Uji, Kyoto','京都・宇治の一番茶')],['cup',L('About 7 lattes, or 15 cups straight, per tin','1缶でラテ約7杯、そのまま飲むなら約15杯')]],
+    icons:[['truck',L('Ships in 1–2 business days','1〜2営業日で発送')],['box',L('Free U.S. shipping over $75','$75以上で米国内送料無料')],['leaf',L('First harvest from Uji, Kyoto','京都・宇治の一番茶')],['cup',L('About 7 lattes, or 15 cups straight, per tin','1缶でラテ約7杯、そのまま飲むなら約15杯')]],
     upsH:L('New to matcha? Add a whisk.','初めてなら、茶筅もいっしょに。'),
     ups:[['whisk-resin.jpg','Ivory Resin Matcha Whisk','38.00'],['whisk-bamboo.jpg','White Bamboo Matcha Whisk','76.00']],
     upsN:L('Add either whisk and your order ships free.','どちらの茶筅を足しても、送料無料になります。'),
@@ -298,7 +298,7 @@ const D = {
     tag:L('Our pick for drinking straight','ストレートで飲むなら'),
     desc:L('For when you want to taste the matcha itself. ZEN is hand-picked and shade-grown under a raised canopy, which gives it rich umami, a full body, and very little bitterness. Whisk it with hot water and drink it straight.',
            '抹茶そのものの味を楽しみたいときに。ZENは手摘みで、高く張った覆いの下で育てています。そのため、うまみが濃く、コクがあり、苦みはほとんどありません。お湯で点てて、そのまま飲んでください。'),
-    icons:[['truck',L('Ships from Los Angeles in 1–2 business days','ロサンゼルスから1〜2営業日で発送')],['box',L('Free U.S. shipping over $75','$75以上で米国内送料無料')],['leaf',L('Hand-picked first harvest from Uji, Kyoto','京都・宇治の一番茶、手摘み')],['cup',L('About 15 cups per tin','1缶で約15杯分')]],
+    icons:[['truck',L('Ships in 1–2 business days','1〜2営業日で発送')],['box',L('Free U.S. shipping over $75','$75以上で米国内送料無料')],['leaf',L('Hand-picked first harvest from Uji, Kyoto','京都・宇治の一番茶、手摘み')],['cup',L('About 15 cups per tin','1缶で約15杯分')]],
     upsH:L('Make it the traditional way.','昔ながらの道具で点てる。'),
     ups:[['whisk-bamboo.jpg','White Bamboo Matcha Whisk','76.00'],['chawan.jpg','Katakuchi Chawan','118.00']],
     upsN:L('Add either one and your order ships free.','どちらを足しても、送料無料になります。'),
@@ -319,7 +319,7 @@ const D = {
     tag:L('Our richest matcha','いちばん濃い抹茶'),
     desc:L('For slow, special moments. TAKUMI is made entirely from Gokō, a cultivar prized for its deep umami. Hand-picked and shade-grown under a raised canopy, it has a smooth, rounded texture and a finish that lingers.',
            'ゆっくり味わいたい、特別なひとときに。TAKUMIは、うまみの深さで知られる品種「ごこう」だけでつくっています。手摘みで、高く張った覆いの下で育て、まろやかな口当たりと、長く残る余韻があります。'),
-    icons:[['truck',L('Ships from Los Angeles in 1–2 business days','ロサンゼルスから1〜2営業日で発送')],['box',L('Ships free','送料無料')],['leaf',L('Hand-picked first harvest from Uji, Kyoto','京都・宇治の一番茶、手摘み')],['seed',L('100% Gokō cultivar','品種「ごこう」100%')]],
+    icons:[['truck',L('Ships in 1–2 business days','1〜2営業日で発送')],['box',L('Ships free','送料無料')],['leaf',L('Hand-picked first harvest from Uji, Kyoto','京都・宇治の一番茶、手摘み')],['seed',L('100% Gokō cultivar','品種「ごこう」100%')]],
     upsH:L('Make it the traditional way.','昔ながらの道具で点てる。'),
     ups:[['whisk-black.jpg','Black Bamboo Matcha Whisk','89.00'],['chawan.jpg','Katakuchi Chawan','118.00']],
     upsN:'',
@@ -384,13 +384,13 @@ $('acc').innerHTML =
   `<details open><summary>${d.howH}</summary><div class="body"><ol>${d.how.map(s=>`<li>${s}</li>`).join('')}</ol></div></details>` +
   `<details><summary>${L('AYA, ZEN or TAKUMI?','AYA・ZEN・TAKUMIの選び方')}</summary><div class="body ch">${chooser}</div></details>` +
   `<details><summary>${L('Taste & origin','味と産地')}</summary><div class="body"><p>${d.taste}</p><p>${d.origin}</p><p>${L('Net Wt. 1.06 oz (30g) · Made in Japan','内容量 30g・日本製')}</p></div></details>` +
-  `<details><summary>${L('Shipping & returns','配送と返品')}</summary><div class="body"><p>${L('U.S. shipping is a flat $5. Orders over $75 and all subscription orders ship free. We ship from Los Angeles within 1–2 business days, and orders usually arrive in 2–5 business days.','米国内の送料は一律$5。$75以上のご注文と定期便は送料無料です。ロサンゼルスから1〜2営業日で発送し、通常2〜5営業日でお届けします。')}</p><p>${L('Returns or exchanges are accepted if you received an item different from what you ordered, or if your item arrived damaged or defective. Please contact us within 7 days of receiving your package.','ご注文と違う商品が届いた場合、破損・不良があった場合は、返品・交換を承ります。お受け取りから7日以内にご連絡ください。')}</p></div></details>`;
+  `<details><summary>${L('Shipping & returns','配送と返品')}</summary><div class="body"><p>${L('U.S. shipping is a flat $5. Orders over $75 and all subscription orders ship free. We ship within 1–2 business days, and orders usually arrive in 2–5 business days.','米国内の送料は一律$5。$75以上のご注文と定期便は送料無料です。1〜2営業日で発送し、通常2〜5営業日でお届けします。')}</p><p>${L('Returns or exchanges are accepted if you received an item different from what you ordered, or if your item arrived damaged or defective. Please contact us within 7 days of receiving your package.','ご注文と違う商品が届いた場合、破損・不良があった場合は、返品・交換を承ります。お受け取りから7日以内にご連絡ください。')}</p></div></details>`;
 
 // founder
 $('feb').textContent = L('Our story','私たちのストーリー');
 $('fh').textContent = L('Chosen by Eri, our founder','創業者Eriが選んだ抹茶');
-$('fp').textContent = L(`“I grew up drinking matcha in Japan and couldn’t find that taste in the U.S. So I went to Uji, met a fifth-generation tea master, and joined his team for the first harvest two years in a row. Out of everything I tasted there, I chose only three. ${d.name} is one of them.”`,
-                        `「日本で抹茶を飲んで育ちましたが、アメリカではその味に出会えませんでした。そこで宇治へ行き、5代目の茶師と出会い、2年続けて一緒に一番茶を摘みました。そこで飲み比べたなかから選んだのは、3種類だけ。${d.name}はそのひとつです。」`);
+$('fp').textContent = L(`“I grew up drinking matcha in Japan and couldn’t find that taste in the U.S. So I spent several years visiting Uji, learning directly from a fifth-generation tea master. Out of everything I tasted there, I chose only three. ${d.name} is one of them.”`,
+                        `「日本で抹茶を飲んで育ちましたが、アメリカではその味に出会えませんでした。そこで何年も宇治に通い、5代目の茶師から直接学びました。そこで飲み比べたなかから選んだのは、3種類だけ。${d.name}はそのひとつです。」`);
 $('fa').textContent = L('Read our story','ストーリーを読む');
 
 // reviews
